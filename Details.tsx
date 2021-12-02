@@ -37,7 +37,7 @@ export default function Details({ navigation }) {
         >
           50 minutes
         </RadioButton>
-        <Button title="Start" onPress={navigation.navigate("clock")}>
+        <Button title="Start" onPress={navigation.navigate("clock")} />
       </View>
     </>
   );
