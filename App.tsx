@@ -1,23 +1,21 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from "react";
+import { NativeRouter, Route, Switch, Redirect } from "react-router-native";
 
-import Pomodoro from './Pomodoro';
-
-const Stack = createNativeStackNavigator();
+import Pomodoro from "./components/Pomodoro";
+import Details from "./components/Details";
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Details" component={Details} />
-        <Stack.Screen name="clock" component={Pomodoro}/>
-      </Stack.Navigator>
-  </NavigationContainer>
+    <NativeRouter>
+      <Switch>
+        <Route exact path="/">
+          <Details />
+        </Route>
+        <Route exact path="/clock">
+          <Pomodoro />
+        </Route>
+        <Redirect to="/" />
+      </Switch>
+    </NativeRouter>
   );
 }
-
-
-
-
-
