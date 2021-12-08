@@ -11,10 +11,11 @@ import theme from "../../theme";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     padding: 4,
+    flex: 0,
+    width: "100%",
   },
   textInput: {
     margin: 10,
@@ -24,12 +25,6 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.primary,
     width: 200,
     textAlign: "center",
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
   },
   modalView: {
     margin: 20,
@@ -70,7 +65,7 @@ const styles = StyleSheet.create({
 
 const Popup = ({ task, displayTime, modalVisible, setModalVisible }) => {
   return (
-    <View style={styles.modalView}>
+    <View style={styles.container}>
       <Modal
         animationType="none"
         transparent={true}
@@ -79,14 +74,16 @@ const Popup = ({ task, displayTime, modalVisible, setModalVisible }) => {
           setModalVisible(!modalVisible);
         }}
       >
-        <Text>{displayTime}</Text>
-        <Text>Your original task was:</Text>
-        <Text>{task}</Text>
-        <Text>Log what you're working on:</Text>
-        <TextInput style={styles.textInput} />
-        <Pressable onPress={() => setModalVisible(!modalVisible)}>
-          <Text>Hide Modal</Text>
-        </Pressable>
+        <View style={styles.modalView}>
+          <Text>{displayTime}</Text>
+          <Text>Your original task was:</Text>
+          <Text>{task}</Text>
+          <Text>Log what you're working on:</Text>
+          <TextInput style={styles.textInput} />
+          <Pressable onPress={() => setModalVisible(!modalVisible)}>
+            <Text>Hide Modal</Text>
+          </Pressable>
+        </View>
       </Modal>
     </View>
   );

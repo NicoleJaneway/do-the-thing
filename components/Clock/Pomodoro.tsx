@@ -5,21 +5,11 @@ import Clock from "./Clock";
 import theme from "../../theme";
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: theme.colors.primary,
-  },
+  container: {},
 });
 
 const Pomodoro = ({ task, sessionLength }) => {
-  return (
-    <View style={styles.container}>
-      <Text style={{ fontSize: 20 }}>do the thing</Text>
-      <Clock task={task} sessionLength={sessionLength} />
-    </View>
-  );
+  return <Clock task={task} sessionLength={sessionLength} />;
 };
 
 export default Pomodoro;
