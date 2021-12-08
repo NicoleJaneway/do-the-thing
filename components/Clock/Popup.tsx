@@ -74,7 +74,7 @@ const Popup = ({ task, displayTime, modalVisible, setModalVisible }) => {
       <Modal
         animationType="none"
         transparent={true}
-        visible={false}
+        visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}

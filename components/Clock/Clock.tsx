@@ -1,12 +1,19 @@
 import React, { useState, useRef, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+  TextInput,
+  Pressable,
+} from "react-native";
 
 import TimerDisplay from "./TimerDisplay";
 import Controls from "./Controls";
-import Popup from "./Popup";
 
 const styles = StyleSheet.create({
   container: {
+    display: "flex",
     alignItems: "center",
     justifyContent: "center",
     padding: 4,
@@ -52,12 +59,6 @@ export default function Clock({ task, sessionLength }) {
           <Controls
             countdownTime={countdownTime}
             setCountdownTime={setCountdownTime}
-          />
-          <Popup
-            task={task}
-            displayTime={displayTime}
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
           />
         </View>
       </>

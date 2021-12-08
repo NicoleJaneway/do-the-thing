@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Link } from "react-router-native";
+import { Audio } from "expo-av";
 
 const styles = StyleSheet.create({
   controls: {
-    flex: 1,
     flexDirection: "row",
     padding: 10,
   },
@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
 });
 
 export default function Controls({ countdownTime, setCountdownTime }) {
-  const audioRef = useRef();
   const [active, setActive] = useState(true);
 
   // Timer
@@ -30,6 +29,17 @@ export default function Controls({ countdownTime, setCountdownTime }) {
     setActive(!active);
   };
 
+  const playSound = async () => {
+    await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+
+    const { sound: playbackObject } = await Audio.Sound.createAsync(
+      {
+        uri: "https://sampleswap.org/samples-ghost/DRUMS%20(SINGLE%20HITS)/Gongs%20and%20Super%20Crashes/1237[kb]kong-gong-long.wav.mp3",
+      },
+      { shouldPlay: true }
+    );
+  };
+
   return (
     <>
       <View style={styles.controls}>
@@ -42,11 +52,6 @@ export default function Controls({ countdownTime, setCountdownTime }) {
         <Link to="/finish">
           <Text style={styles.element}>⏭</Text>
         </Link>
-        <audio
-          id="gong"
-          src="https://sampleswap.org/samples-ghost/DRUMS%20(SINGLE%20HITS)/Gongs%20and%20Super%20Crashes/1237[kb]kong-gong-long.wav.mp3"
-          ref={audioRef}
-        />
       </View>
     </>
   );
