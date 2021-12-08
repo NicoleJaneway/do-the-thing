@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
 import { RadioButton } from "react-native-paper";
 import { Link } from "react-router-native";
@@ -30,15 +30,18 @@ const styles = StyleSheet.create({
     width: 100,
     backgroundColor: theme.colors.primary,
     borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
+    textAlign: "center",
+    padding: 6,
+    color: "white",
   },
 });
 
-export default function Details() {
-  const [sessionLength, setSessionLength] = useState(25);
-  const [task, setTask] = useState("");
-
+export default function Details({
+  task,
+  setTask,
+  sessionLength,
+  setSessionLength,
+}) {
   return (
     <>
       <View style={styles.container}>
@@ -91,9 +94,7 @@ export default function Details() {
           </View>
         </View>
         <Link to="/clock">
-          <Pressable style={styles.pressable}>
-            <Text style={{ color: "white" }}>Start</Text>
-          </Pressable>
+          <Text style={styles.pressable}>Start</Text>
         </Link>
       </View>
     </>

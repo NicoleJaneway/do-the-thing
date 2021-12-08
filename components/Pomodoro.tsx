@@ -14,12 +14,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Pomodoro() {
+export default function Pomodoro({ props }) {
   return (
     <View style={styles.container}>
       <Text style={{ fontSize: 20 }}>do the thing</Text>
-      <Clock />
-      <StatusBar style="auto" />
+      <Clock props={props} />
     </View>
   );
 }

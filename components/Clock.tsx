@@ -4,19 +4,26 @@ import { StyleSheet, Text, View } from "react-native";
 import SetTimer from "./SetTimer";
 import TimerDisplay from "./TimerDisplay";
 
-export default function Clock() {
-  const [sessionLength, setSessionLength] = useState(25);
+export default function Clock({ task, sessionLength }) {
   const [breakLength, setBreakLength] = useState(5);
   const [countdownTime, setCountdownTime] = useState(sessionLength * 60 * 1000);
   const [active, setActive] = useState(false);
   const [isSession, setIsSession] = useState(true);
   const [sessionCounter, setSessionCounter] = useState(0);
   const completedSessionCounter = Math.ceil(sessionCounter / 2);
-  const [task, setTask] = useState("");
 
   const audioRef = useRef();
 
-  let initialTime = (isSession ? sessionLength : breakLength) * 60 * 1000; // fix
+  const styles = StyleSheet.create({
+    container: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 4,
+    },
+  });
+
+  let initialTime = sessionLength * 60 * 1000;
 
   useEffect(() => {
     setCountdownTime(initialTime);
@@ -31,31 +38,8 @@ export default function Clock() {
   return (
     <>
       <View style={styles.container}>
-        <SetTimer
-          type="Session"
-          length={sessionLength}
-          setLength={setSessionLength}
-        />
-        <SetTimer
-          type="Break"
-          length={breakLength}
-          setLength={setBreakLength}
-        />
+        <TimerDisplay countdownTime={countdownTime} task={task} />
       </View>
-      <TimerDisplay
-        type={isSession ? "Session" : "Break"}
-        countdownTime={countdownTime}
-        task={task}
-      />
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 4,
-  },
-});
