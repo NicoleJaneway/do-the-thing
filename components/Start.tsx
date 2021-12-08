@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Details({
+export default function Start({
   task,
   setTask,
   sessionLength,

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 import Clock from "./Clock";
-import theme from "../theme";
+import theme from "../../theme";
 
 const styles = StyleSheet.create({
   container: {
@@ -14,11 +14,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Pomodoro({ props }) {
+export default function Pomodoro({ task, sessionLength }) {
   return (
     <View style={styles.container}>
       <Text style={{ fontSize: 20 }}>do the thing</Text>
-      <Clock props={props} />
+      <Clock task={task} sessionLength={sessionLength} />
     </View>
   );
 }
