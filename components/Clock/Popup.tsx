@@ -10,13 +10,6 @@ import {
 import theme from "../../theme";
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 4,
-    flex: 0,
-    width: "100%",
-  },
   textInput: {
     margin: 10,
     padding: 5,
@@ -27,7 +20,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   modalView: {
-    margin: 20,
+    marginTop: "auto",
+    marginBottom: "auto",
+    marginLeft: 20,
+    marginRight: 20,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
@@ -64,29 +60,7 @@ const styles = StyleSheet.create({
 });
 
 const Popup = ({ task, displayTime, modalVisible, setModalVisible }) => {
-  return (
-    <View style={styles.container}>
-      <Modal
-        animationType="none"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.modalView}>
-          <Text>{displayTime}</Text>
-          <Text>Your original task was:</Text>
-          <Text>{task}</Text>
-          <Text>Log what you're working on:</Text>
-          <TextInput style={styles.textInput} />
-          <Pressable onPress={() => setModalVisible(!modalVisible)}>
-            <Text>Hide Modal</Text>
-          </Pressable>
-        </View>
-      </Modal>
-    </View>
-  );
+  return <View style={styles.container}></View>;
 };
 
 export default Popup;

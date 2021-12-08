@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
 import { RadioButton } from "react-native-paper";
 import { Link } from "react-router-native";
@@ -41,7 +41,13 @@ export default function Start({
   setTask,
   sessionLength,
   setSessionLength,
+  setLogs,
 }) {
+  useEffect(() => {
+    setTask("");
+    setLogs([]);
+  }, []);
+
   return (
     <>
       <View style={styles.container}>

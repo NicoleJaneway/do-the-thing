@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.primary,
   },
   textInput: {
-    margin: 10,
+    marginTop: 10,
+    marginBottom: 20,
     padding: 5,
     borderWidth: 1,
     borderRadius: 8,
@@ -47,28 +48,30 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
+  pressable: {
+    height: 30,
+    width: 100,
+    backgroundColor: theme.colors.primary,
+    borderRadius: 8,
   },
 });
 
-// elapsedTime % (8 *60 *1000) === 0
-
-export default function Clock({ task, sessionLength }) {
+export default function Clock({ task, sessionLength, logs, setLogs }) {
   const initialTime = sessionLength * 60 * 1000;
+  const [currentTask, setCurrentTask] = useState("");
   const [countdownTime, setCountdownTime] = useState(initialTime);
   const [elapsedTime, setElapsedTime] = useState(0);
-
   const [displayTime, setDisplayTime] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [checkinCount, setCheckinCount] = useState(1);
+
+  let totalCheckins = 3;
+
+  if (sessionLength === 32) {
+    totalCheckins = 4;
+  } else if (sessionLength === 50) {
+    totalCheckins = 6;
+  }
 
   const convert = (ms) => {
     let seconds: number = Math.floor((ms / 1000) % 60);
@@ -86,43 +89,89 @@ export default function Clock({ task, sessionLength }) {
     setDisplayTime(convert(countdownTime));
     setElapsedTime(initialTime - countdownTime);
 
-    if (elapsedTime === 5000) {
+    // elapsedTime % (8 * 60 *1000) === 0
+
+    if (elapsedTime % 4000 === 0) {
       setModalVisible(true);
     }
   }, [countdownTime]);
 
-  if (countdownTime)
-    return (
-      <>
-        <View style={styles.container}>
-          <Text style={{ fontSize: 20 }}>do the thing</Text>
-          <TimerDisplay displayTime={displayTime} task={task} />
-          <Controls
-            countdownTime={countdownTime}
-            setCountdownTime={setCountdownTime}
-          />
-          <View>
-            <Modal
-              animationType="none"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-                setModalVisible(!modalVisible);
-              }}
-            >
-              <View style={styles.modalView}>
-                <Text>{displayTime}</Text>
-                <Text>Your original task was:</Text>
-                <Text>{task}</Text>
-                <Text>Log what you're working on:</Text>
-                <TextInput style={styles.textInput} />
-                <Pressable onPress={() => setModalVisible(!modalVisible)}>
-                  <Text>Hide Modal</Text>
-                </Pressable>
+  useEffect(() => {
+    console.log("From Clock: " + logs);
+  }, [logs]);
+
+  const handlePress = () => {
+    setModalVisible(!modalVisible);
+    setCheckinCount(checkinCount + 1);
+    if (currentTask !== "") {
+      const updatedLogs = [...logs, currentTask];
+      setLogs(updatedLogs);
+    }
+    setCurrentTask("");
+  };
+
+  return (
+    <>
+      <View style={styles.container}>
+        <Text style={{ fontSize: 20 }}>do the thing</Text>
+        <TimerDisplay displayTime={displayTime} task={task} />
+        <Controls
+          countdownTime={countdownTime}
+          setCountdownTime={setCountdownTime}
+        />
+        <View>
+          <Modal
+            animationType="none"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.modalView}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  marginBottom: 20,
+                }}
+              >
+                <Text>
+                  Checkin {checkinCount} of {totalCheckins}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 24,
+                    color: theme.colors.textSecondary,
+                  }}
+                >
+                  {displayTime}
+                </Text>
               </View>
-            </Modal>
-          </View>
+              <Text>Your original task was:</Text>
+              <Text style={{ marginTop: 5, marginBottom: 20 }}>{task}</Text>
+              <Text>Log what you're currently working on:</Text>
+              <TextInput
+                style={styles.textInput}
+                onChangeText={setCurrentTask}
+                value={currentTask}
+              />
+              <Pressable style={styles.pressable} onPress={handlePress}>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    padding: 6,
+                    color: "white",
+                  }}
+                >
+                  Submit
+                </Text>
+              </Pressable>
+            </View>
+          </Modal>
         </View>
-      </>
-    );
+      </View>
+    </>
+  );
 }

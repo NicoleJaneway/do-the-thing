@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
 import { Link } from "react-router-native";
 
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Finish = ({ task, sessionLength }) => {
+const Finish = ({ task, sessionLength, logs }) => {
   let breakLength = 5;
 
   if (sessionLength === 32) {
@@ -31,11 +31,33 @@ const Finish = ({ task, sessionLength }) => {
     breakLength = 10;
   }
 
+  useEffect(() => {
+    console.log("From Finish: " + logs);
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={{ fontSize: 20 }}>do the thing</Text>
-      <Text>Good job{task === "" ? "!" : " working on " + task}</Text>
-      <Text>Your summary:</Text>
+      <Text style={{ marginBottom: 20 }}>
+        Good job{task === "" ? "!" : " working on " + task}
+      </Text>
+      {logs.length > 0 && <Text>Your summary:</Text>}
+      <View
+        style={{
+          width: "100%",
+          textAlign: "left",
+          paddingLeft: 20,
+          paddingRight: 20,
+          paddingTop: 10,
+          paddingBottom: 20,
+        }}
+      >
+        {logs.map((log: string) => (
+          <Text key={logs.indexOf(log) + 1}>
+            Checkin #{logs.indexOf(log) + 1} - {log}
+          </Text>
+        ))}
+      </View>
       <Link to="/">
         <Text style={styles.pressable}>Restart</Text>
       </Link>
