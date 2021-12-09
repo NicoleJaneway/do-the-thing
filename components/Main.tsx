@@ -13,6 +13,7 @@ const Main = () => {
   const [task, setTask] = useState("");
   const [logs, setLogs] = useState([]);
   const [zenMode, setZenMode] = useState(false);
+  const [mute, setMute] = useState(false);
 
   return (
     <>

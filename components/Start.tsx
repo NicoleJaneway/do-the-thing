@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
+import { StyleSheet, Text, View, TextInput, Switch } from "react-native";
 import { RadioButton } from "react-native-paper";
 import { Link } from "react-router-native";
 
@@ -110,20 +110,35 @@ export default function Start({
             width: "100%",
           }}
         >
-          <Text style={{ fontSize: 16, textAlign: "left" }}>Zen mode:</Text>
+          <View>
+            <Text style={{ fontSize: 16, textAlign: "left", marginBottom: 4 }}>
+              Zen mode:
+            </Text>
+            <View style={styles.pomodoroSelector}>
+              <Text style={{ paddingRight: 8 }}>No</Text>
+              <Switch
+                trackColor={{ false: "#767577", true: theme.colors.primary }}
+                value={zenMode}
+                onValueChange={() => setZenMode(!zenMode)}
+                style={{ transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }] }}
+              />
+              <Text style={{ paddingLeft: 8 }}>Yes</Text>
+            </View>
+          </View>
+        </View>
+        <View>
+          <Text style={{ fontSize: 16, textAlign: "left", marginBottom: 4 }}>
+            Zen mode:
+          </Text>
           <View style={styles.pomodoroSelector}>
-            <RadioButton
-              value="Yes"
-              status={zenMode === true ? "checked" : "unchecked"}
-              onPress={() => setZenMode(true)}
+            <Text style={{ paddingRight: 8 }}>No</Text>
+            <Switch
+              trackColor={{ false: "#767577", true: theme.colors.primary }}
+              value={zenMode}
+              onValueChange={() => setZenMode(!zenMode)}
+              style={{ transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }] }}
             />
-            <Text style={{ paddingRight: 20 }}>Yes</Text>
-            <RadioButton
-              value="No"
-              status={zenMode === false ? "checked" : "unchecked"}
-              onPress={() => setZenMode(false)}
-            />
-            <Text>No</Text>
+            <Text style={{ paddingLeft: 8 }}>Yes</Text>
           </View>
         </View>
       </View>
