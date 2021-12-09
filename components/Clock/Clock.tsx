@@ -7,6 +7,7 @@ import {
   TextInput,
   Pressable,
 } from "react-native";
+import { Audio } from "expo-av";
 
 import TimerDisplay from "./TimerDisplay";
 import Controls from "./Controls";
@@ -33,7 +34,14 @@ const testSettings = {
   checkin: 4000,
 };
 
-export default function Clock({ task, sessionLength, logs, setLogs }) {
+export default function Clock({
+  task,
+  sessionLength,
+  logs,
+  setLogs,
+  zenMode,
+  mute,
+}) {
   const environment = useContext(EnvContext);
   const settings = environment === "prod" ? prodSettings : testSettings;
 
@@ -42,6 +50,19 @@ export default function Clock({ task, sessionLength, logs, setLogs }) {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [displayTime, setDisplayTime] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [sound, setSound] = useState();
+
+  const playSound = async () => {
+    console.log("Loading Sound");
+    await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+    const { sound: playbackObject } = await Audio.Sound.createAsync(
+      require("../../assets/checkin-bell.mp3")
+    );
+    setSound(sound);
+
+    console.log("Playing Sound");
+    await sound.playAsync();
+  };
 
   const convert = (ms: number) => {
     let seconds: number = Math.floor((ms / 1000) % 60);
@@ -56,11 +77,23 @@ export default function Clock({ task, sessionLength, logs, setLogs }) {
   };
 
   useEffect(() => {
+    return sound
+      ? () => {
+          console.log("Unloading Sound");
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
+
+  useEffect(() => {
     setDisplayTime(convert(countdownTime));
     setElapsedTime(initialTime - countdownTime);
 
-    if (elapsedTime > 0 && elapsedTime % settings.checkin === 0) {
+    if (!zenMode && elapsedTime > 0 && elapsedTime % settings.checkin === 0) {
       setModalVisible(true);
+      if (!mute) {
+        playSound();
+      }
     }
   }, [countdownTime]);
 
