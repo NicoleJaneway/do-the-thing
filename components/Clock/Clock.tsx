@@ -7,6 +7,7 @@ import {
   TextInput,
   Pressable,
 } from "react-native";
+import { useHistory } from "react-router-native";
 import RNSystemSounds from "@dashdoc/react-native-system-sounds";
 
 import TimerDisplay from "./TimerDisplay";
@@ -52,6 +53,8 @@ export default function Clock({
   const [modalVisible, setModalVisible] = useState(false);
   const [sound, setSound] = useState();
 
+  const history = useHistory();
+
   const convert = (ms: number) => {
     let seconds: number = Math.floor((ms / 1000) % 60);
     let minutes: number = Math.floor(ms / (1000 * 60));
@@ -71,26 +74,26 @@ export default function Clock({
     // display popup and play beep
     if (!zenMode && elapsedTime > 0 && elapsedTime % settings.checkin === 0) {
       setModalVisible(true);
+      console.log("Mute: " + mute);
       if (!mute) {
-        () => {
-          RNSystemSounds.beep(RNSystemSounds.Beeps.Negative);
-        };
+        console.log("Play sound");
+        () => RNSystemSounds.beep();
       }
     }
 
     // play beep when time is up
     if (countdownTime === 0) {
+      console.log("Time's up");
+      history.push("/finish");
       if (!mute) {
-        () => {
-          RNSystemSounds.beep(RNSystemSounds.Beeps.Negative);
-        };
+        () => RNSystemSounds.beep();
       }
     }
   }, [countdownTime]);
 
   useEffect(() => {
-    console.log("From Clock: " + logs);
-  }, [logs]);
+    RNSystemSounds.beep();
+  }, [modalVisible]);
 
   return (
     <>
