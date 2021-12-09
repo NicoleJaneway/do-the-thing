@@ -13,15 +13,17 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   textInput: {
-    margin: 10,
+    marginTop: 4,
     padding: 5,
     borderWidth: 1,
     borderRadius: 8,
     borderColor: theme.colors.primary,
-    width: 200,
-    textAlign: "center",
+    width: "100%",
+    textAlign: "left",
   },
   pomodoroSelector: {
+    width: "100%",
+    justifyContent: "flex-start",
     flexDirection: "row",
     alignItems: "center",
   },
@@ -33,6 +35,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     padding: 6,
     color: "white",
+    position: "absolute",
+    alignSelf: "center",
+    bottom: 80,
   },
 });
 
@@ -51,15 +56,13 @@ export default function Start({
   return (
     <>
       <View style={styles.container}>
-        <Text style={{ fontSize: 20, marginBottom: 16 }}>do the thing</Text>
         <View
           style={{
-            marginBottom: 20,
-            alignItems: "center",
-            justifyContent: "center",
+            padding: 20,
+            width: "100%",
           }}
         >
-          <Text style={{ fontSize: 16 }}>Set task</Text>
+          <Text style={{ fontSize: 16, textAlign: "left" }}>Set task:</Text>
           <TextInput
             onChangeText={setTask}
             value={task}
@@ -69,8 +72,8 @@ export default function Start({
         <View
           style={{
             marginBottom: 25,
-            alignItems: "center",
-            justifyContent: "center",
+            padding: 20,
+            width: "100%",
           }}
         >
           <Text style={{ fontSize: 16, marginBottom: 10 }}>Set pomodoro</Text>
@@ -99,10 +102,10 @@ export default function Start({
             <Text>50 minutes</Text>
           </View>
         </View>
-        <Link to="/clock">
-          <Text style={styles.pressable}>Start</Text>
-        </Link>
       </View>
+      <Link to="/clock">
+        <Text style={styles.pressable}>Start</Text>
+      </Link>
     </>
   );
 }

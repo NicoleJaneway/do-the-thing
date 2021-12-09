@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-
+import { Text } from "react-native";
 import { Route, Switch, Redirect } from "react-router-native";
+import { StatusBar } from "expo-status-bar";
+import Constants from "expo-constants";
 
 import Clock from "./Clock/Clock";
 import Start from "./Start";
@@ -13,6 +15,19 @@ const Main = () => {
 
   return (
     <>
+      <Text
+        style={{
+          top: Constants.statusBarHeight + 10,
+          fontSize: 20,
+          marginBottom: 16,
+          alignSelf: "center",
+          backgroundColor: "transparent",
+          position: "absolute",
+          zIndex: 100,
+        }}
+      >
+        do the thing
+      </Text>
       <Switch>
         <Route exact path="/">
           <Start
@@ -36,6 +51,7 @@ const Main = () => {
         </Route>
         <Redirect to="/" />
       </Switch>
+      {/* <StatusBar style="light" /> */}
     </>
   );
 };

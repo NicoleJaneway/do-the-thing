@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     padding: 6,
     color: "white",
+    position: "absolute",
+    alignSelf: "center",
+    bottom: 80,
   },
 });
 
@@ -36,32 +39,33 @@ const Finish = ({ task, sessionLength, logs }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={{ fontSize: 20 }}>do the thing</Text>
-      <Text style={{ marginBottom: 20 }}>
-        Good job{task === "" ? "!" : " working on " + task}
-      </Text>
-      {logs.length > 0 && <Text>Your summary:</Text>}
-      <View
-        style={{
-          width: "100%",
-          textAlign: "left",
-          paddingLeft: 20,
-          paddingRight: 20,
-          paddingTop: 10,
-          paddingBottom: 20,
-        }}
-      >
-        {logs.map((log: string) => (
-          <Text key={logs.indexOf(log) + 1}>
-            Checkin #{logs.indexOf(log) + 1} - {log}
-          </Text>
-        ))}
+    <>
+      <View style={styles.container}>
+        <Text style={{ marginBottom: 20 }}>
+          Good job{task === "" ? "!" : " working on " + task}
+        </Text>
+        {logs.length > 0 && <Text>Your summary:</Text>}
+        <View
+          style={{
+            width: "100%",
+            textAlign: "left",
+            paddingLeft: 20,
+            paddingRight: 20,
+            paddingTop: 10,
+            paddingBottom: 20,
+          }}
+        >
+          {logs.map((log: string) => (
+            <Text key={logs.indexOf(log) + 1}>
+              Checkin #{logs.indexOf(log) + 1} - {log}
+            </Text>
+          ))}
+        </View>
       </View>
       <Link to="/">
         <Text style={styles.pressable}>Restart</Text>
       </Link>
-    </View>
+    </>
   );
 };
 
