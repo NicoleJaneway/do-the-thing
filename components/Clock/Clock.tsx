@@ -1,14 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Modal,
-  TextInput,
-  Pressable,
-} from "react-native";
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { StyleSheet, View } from "react-native";
 import { useHistory } from "react-router-native";
-import RNSystemSounds from "@dashdoc/react-native-system-sounds";
+import { Audio } from "expo-av";
 
 import TimerDisplay from "./TimerDisplay";
 import Controls from "./Controls";
@@ -32,7 +25,7 @@ const prodSettings = {
 
 const testSettings = {
   numberOfSeconds: 2,
-  checkin: 4000,
+  checkin: 2000,
 };
 
 export default function Clock({
@@ -51,9 +44,34 @@ export default function Clock({
   const [elapsedTime, setElapsedTime] = useState(0);
   const [displayTime, setDisplayTime] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [sound, setSound] = useState();
+  const [sound, setSound] = useState<Audio.Sound>();
 
   const history = useHistory();
+
+  async function loadSound() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("../../assets/bell.mp3")
+    );
+    setSound(sound);
+  }
+
+  async function playSound() {
+    console.log("Playing Sound");
+    await sound.playAsync();
+  }
+
+  useEffect(() => {
+    loadSound();
+  });
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          console.log("Unloading Sound");
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [history]);
 
   const convert = (ms: number) => {
     let seconds: number = Math.floor((ms / 1000) % 60);
@@ -76,8 +94,8 @@ export default function Clock({
       setModalVisible(true);
       console.log("Mute: " + mute);
       if (!mute) {
+        playSound();
         console.log("Play sound");
-        () => RNSystemSounds.beep();
       }
     }
 
@@ -86,14 +104,10 @@ export default function Clock({
       console.log("Time's up");
       history.push("/finish");
       if (!mute) {
-        () => RNSystemSounds.beep();
+        playSound();
       }
     }
   }, [countdownTime]);
-
-  useEffect(() => {
-    RNSystemSounds.beep();
-  }, [modalVisible]);
 
   return (
     <>
