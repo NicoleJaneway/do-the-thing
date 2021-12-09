@@ -52,6 +52,8 @@ const Main = () => {
               sessionLength={sessionLength}
               logs={logs}
               setLogs={setLogs}
+              zenMode={zenMode}
+              mute={mute}
             />
           </EnvContext.Provider>
         </Route>

@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@dashdoc/react-native-system-sounds": "^1.0.0",
     "babel-loader": "^8.2.3",
     "expo": "~42.0.1",
     "expo-av": "~9.2.3",

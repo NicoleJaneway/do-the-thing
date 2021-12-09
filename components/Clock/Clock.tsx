@@ -7,7 +7,7 @@ import {
   TextInput,
   Pressable,
 } from "react-native";
-import { Audio } from "expo-av";
+import RNSystemSounds from "@dashdoc/react-native-system-sounds";
 
 import TimerDisplay from "./TimerDisplay";
 import Controls from "./Controls";
@@ -52,18 +52,6 @@ export default function Clock({
   const [modalVisible, setModalVisible] = useState(false);
   const [sound, setSound] = useState();
 
-  const playSound = async () => {
-    console.log("Loading Sound");
-    await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
-    const { sound: playbackObject } = await Audio.Sound.createAsync(
-      require("../../assets/checkin-bell.mp3")
-    );
-    setSound(sound);
-
-    console.log("Playing Sound");
-    await sound.playAsync();
-  };
-
   const convert = (ms: number) => {
     let seconds: number = Math.floor((ms / 1000) % 60);
     let minutes: number = Math.floor(ms / (1000 * 60));
@@ -77,22 +65,25 @@ export default function Clock({
   };
 
   useEffect(() => {
-    return sound
-      ? () => {
-          console.log("Unloading Sound");
-          sound.unloadAsync();
-        }
-      : undefined;
-  }, [sound]);
-
-  useEffect(() => {
     setDisplayTime(convert(countdownTime));
     setElapsedTime(initialTime - countdownTime);
 
+    // display popup and play beep
     if (!zenMode && elapsedTime > 0 && elapsedTime % settings.checkin === 0) {
       setModalVisible(true);
       if (!mute) {
-        playSound();
+        () => {
+          RNSystemSounds.beep(RNSystemSounds.Beeps.Negative);
+        };
+      }
+    }
+
+    // play beep when time is up
+    if (countdownTime === 0) {
+      if (!mute) {
+        () => {
+          RNSystemSounds.beep(RNSystemSounds.Beeps.Negative);
+        };
       }
     }
   }, [countdownTime]);

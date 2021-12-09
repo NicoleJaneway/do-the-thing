@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const playSound = async () => {
+async function playSound() {
   await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
 
   const { sound: playbackObject } = await Audio.Sound.createAsync(
@@ -23,7 +23,7 @@ const playSound = async () => {
     },
     { shouldPlay: true }
   );
-};
+}
 
 export default function Controls({ countdownTime, setCountdownTime }) {
   const [active, setActive] = useState(true);
