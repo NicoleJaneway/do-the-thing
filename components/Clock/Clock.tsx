@@ -26,7 +26,7 @@ export default function Clock({ task, sessionLength, logs, setLogs }) {
   const initialTime = sessionLength * 60 * 1000;
   const [countdownTime, setCountdownTime] = useState(initialTime);
   const [elapsedTime, setElapsedTime] = useState(0);
-  const [displayTime, setDisplayTime] = useState(false);
+  const [displayTime, setDisplayTime] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   const convert = (ms: number) => {
@@ -45,9 +45,7 @@ export default function Clock({ task, sessionLength, logs, setLogs }) {
     setDisplayTime(convert(countdownTime));
     setElapsedTime(initialTime - countdownTime);
 
-    //elapsedTime % (8 * 60 * 1000)
-
-    if (elapsedTime > 0 && elapsedTime % 4000 === 0) {
+    if (elapsedTime > 0 && elapsedTime % (8 * 60 * 1000) === 0) {
       setModalVisible(true);
     }
   }, [countdownTime]);
@@ -59,7 +57,6 @@ export default function Clock({ task, sessionLength, logs, setLogs }) {
   return (
     <>
       <View style={styles.container}>
-        <Text style={{ fontSize: 20 }}>do the thing</Text>
         <TimerDisplay displayTime={displayTime} task={task} />
         <Controls
           countdownTime={countdownTime}

@@ -3,9 +3,8 @@ import { StyleSheet, Text, View } from "react-native";
 
 const styles = StyleSheet.create({
   display: {
-    display: "flex",
-    padding: 10,
     textAlign: "center",
+    alignItems: "center",
   },
 });
 
@@ -13,10 +12,9 @@ export default function TimerDisplay({ displayTime, task }) {
   return (
     <>
       <View style={styles.display}>
-        <Text style={{ textAlign: "center" }}>
-          {task !== "" ? task + " - " : null}time left
-        </Text>
-        <Text style={{ textAlign: "center" }}>{displayTime}</Text>
+        <Text>{task !== "" ? task : "&nbsp;"}</Text>
+        <Text>time left</Text>
+        <Text style={{ fontSize: 100 }}>{displayTime}</Text>
       </View>
     </>
   );
