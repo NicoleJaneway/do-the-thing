@@ -14,6 +14,17 @@ const styles = StyleSheet.create({
   },
 });
 
+const playSound = async () => {
+  await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+
+  const { sound: playbackObject } = await Audio.Sound.createAsync(
+    {
+      uri: "https://sampleswap.org/samples-ghost/DRUMS%20(SINGLE%20HITS)/Gongs%20and%20Super%20Crashes/1237[kb]kong-gong-long.wav.mp3",
+    },
+    { shouldPlay: true }
+  );
+};
+
 export default function Controls({ countdownTime, setCountdownTime }) {
   const [active, setActive] = useState(true);
 
@@ -24,21 +35,14 @@ export default function Controls({ countdownTime, setCountdownTime }) {
       timer = setTimeout(() => setCountdownTime((prev) => prev - 1000), 1000);
     }
     return () => clearTimeout(timer);
+
+    if (countdownTime === 0) {
+      playSound();
+    }
   }, [countdownTime, active]);
 
   const handleToggleClick = () => {
     setActive(!active);
-  };
-
-  const playSound = async () => {
-    await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
-
-    const { sound: playbackObject } = await Audio.Sound.createAsync(
-      {
-        uri: "https://sampleswap.org/samples-ghost/DRUMS%20(SINGLE%20HITS)/Gongs%20and%20Super%20Crashes/1237[kb]kong-gong-long.wav.mp3",
-      },
-      { shouldPlay: true }
-    );
   };
 
   return (

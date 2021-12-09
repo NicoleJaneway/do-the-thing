@@ -49,6 +49,8 @@ export default function Start({
   setLogs,
   zenMode,
   setZenMode,
+  mute,
+  setMute,
 }) {
   useEffect(() => {
     setTask("");
@@ -73,7 +75,6 @@ export default function Start({
         </View>
         <View
           style={{
-            marginBottom: 25,
             padding: 20,
             width: "100%",
           }}
@@ -112,33 +113,24 @@ export default function Start({
         >
           <View>
             <Text style={{ fontSize: 16, textAlign: "left", marginBottom: 4 }}>
-              Zen mode:
+              Other settings:
             </Text>
             <View style={styles.pomodoroSelector}>
-              <Text style={{ paddingRight: 8 }}>No</Text>
-              <Switch
-                trackColor={{ false: "#767577", true: theme.colors.primary }}
-                value={zenMode}
-                onValueChange={() => setZenMode(!zenMode)}
-                style={{ transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }] }}
+              <RadioButton
+                value="zen mode"
+                status={zenMode === true ? "checked" : "unchecked"}
+                onPress={() => setZenMode(!zenMode)}
               />
-              <Text style={{ paddingLeft: 8 }}>Yes</Text>
+              <Text>Zen mode</Text>
             </View>
-          </View>
-        </View>
-        <View>
-          <Text style={{ fontSize: 16, textAlign: "left", marginBottom: 4 }}>
-            Zen mode:
-          </Text>
-          <View style={styles.pomodoroSelector}>
-            <Text style={{ paddingRight: 8 }}>No</Text>
-            <Switch
-              trackColor={{ false: "#767577", true: theme.colors.primary }}
-              value={zenMode}
-              onValueChange={() => setZenMode(!zenMode)}
-              style={{ transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }] }}
-            />
-            <Text style={{ paddingLeft: 8 }}>Yes</Text>
+            <View style={styles.pomodoroSelector}>
+              <RadioButton
+                value="mute"
+                status={mute === true ? "checked" : "unchecked"}
+                onPress={() => setMute(!mute)}
+              />
+              <Text>Mute</Text>
+            </View>
           </View>
         </View>
       </View>

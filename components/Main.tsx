@@ -40,6 +40,8 @@ const Main = () => {
             setLogs={setLogs}
             zenMode={zenMode}
             setZenMode={setZenMode}
+            mute={mute}
+            setMute={setMute}
           />
         </Route>
         <Route exact path="/clock">
