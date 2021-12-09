@@ -12,8 +12,10 @@ export default function TimerDisplay({ displayTime, task }) {
   return (
     <>
       <View style={styles.display}>
-        <Text>{task !== "" ? task : "&nbsp;"}</Text>
-        <Text>time left</Text>
+        <Text style={{ marginBottom: 10, fontSize: 18 }}>
+          {task !== "" ? task : "\u00A0"}
+        </Text>
+        <Text style={{ fontStyle: "italic" }}>time left</Text>
         <Text style={{ fontSize: 100 }}>{displayTime}</Text>
       </View>
     </>

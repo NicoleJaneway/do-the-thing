@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Link } from "react-router-native";
 import { Audio } from "expo-av";
+import { Entypo } from "@expo/vector-icons";
 
 const styles = StyleSheet.create({
   controls: {
@@ -44,13 +45,27 @@ export default function Controls({ countdownTime, setCountdownTime }) {
     <>
       <View style={styles.controls}>
         <Link to="/">
-          <Text style={styles.element}>⏮</Text>
+          <Entypo
+            name="controller-jump-to-start"
+            size={24}
+            color="black"
+            style={styles.element}
+          />
         </Link>
         <Text onPress={handleToggleClick} style={styles.element}>
-          {active ? "⏸" : "▶️"}
+          {active ? (
+            <Entypo name="controller-paus" size={24} color="black" />
+          ) : (
+            <Entypo name="controller-play" size={24} color="black" />
+          )}
         </Text>
         <Link to="/finish">
-          <Text style={styles.element}>⏭</Text>
+          <Entypo
+            name="controller-next"
+            size={24}
+            color="black"
+            style={styles.element}
+          />
         </Link>
       </View>
     </>

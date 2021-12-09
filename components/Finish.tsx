@@ -33,16 +33,15 @@ const Finish = ({ task, sessionLength, logs }) => {
   } else if (sessionLength === 50) {
     breakLength = 10;
   }
-
-  useEffect(() => {
-    console.log("From Finish: " + logs);
-  }, []);
+  const recase = (str: string) => {
+    return str[0].toLowerCase() + str.substring(1);
+  };
 
   return (
     <>
       <View style={styles.container}>
         <Text style={{ marginBottom: 20 }}>
-          Good job{task === "" ? "!" : " working on " + task}
+          Good job{task === "" ? "!" : " working on " + recase(task)}
         </Text>
         {logs.length > 0 && <Text>Your summary:</Text>}
         <View

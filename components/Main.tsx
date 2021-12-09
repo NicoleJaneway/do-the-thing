@@ -12,6 +12,7 @@ const Main = () => {
   const [sessionLength, setSessionLength] = useState(25);
   const [task, setTask] = useState("");
   const [logs, setLogs] = useState([]);
+  const [zenMode, setZenMode] = useState(false);
 
   return (
     <>
@@ -36,6 +37,8 @@ const Main = () => {
             sessionLength={sessionLength}
             setSessionLength={setSessionLength}
             setLogs={setLogs}
+            zenMode={zenMode}
+            setZenMode={setZenMode}
           />
         </Route>
         <Route exact path="/clock">

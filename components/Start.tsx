@@ -47,6 +47,8 @@ export default function Start({
   sessionLength,
   setSessionLength,
   setLogs,
+  zenMode,
+  setZenMode,
 }) {
   useEffect(() => {
     setTask("");
@@ -76,7 +78,7 @@ export default function Start({
             width: "100%",
           }}
         >
-          <Text style={{ fontSize: 16, marginBottom: 10 }}>Set pomodoro</Text>
+          <Text style={{ fontSize: 16, marginBottom: 10 }}>Set pomodoro:</Text>
           <View style={styles.pomodoroSelector}>
             <RadioButton
               value="25"
@@ -100,6 +102,28 @@ export default function Start({
               onPress={() => setSessionLength(50)}
             />
             <Text>50 minutes</Text>
+          </View>
+        </View>
+        <View
+          style={{
+            padding: 20,
+            width: "100%",
+          }}
+        >
+          <Text style={{ fontSize: 16, textAlign: "left" }}>Zen mode:</Text>
+          <View style={styles.pomodoroSelector}>
+            <RadioButton
+              value="Yes"
+              status={zenMode === true ? "checked" : "unchecked"}
+              onPress={() => setZenMode(true)}
+            />
+            <Text style={{ paddingRight: 20 }}>Yes</Text>
+            <RadioButton
+              value="No"
+              status={zenMode === false ? "checked" : "unchecked"}
+              onPress={() => setZenMode(false)}
+            />
+            <Text>No</Text>
           </View>
         </View>
       </View>
