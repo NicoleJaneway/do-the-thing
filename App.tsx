@@ -1,5 +1,5 @@
 import React from "react";
-import { NativeRouter, Route, Switch, Redirect } from "react-router-native";
+import { NativeRouter } from "react-router-native";
 
 import Main from "./components/Main";
 

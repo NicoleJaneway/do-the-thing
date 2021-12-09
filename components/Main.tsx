@@ -7,6 +7,7 @@ import Constants from "expo-constants";
 import Clock from "./Clock/Clock";
 import Start from "./Start";
 import Finish from "./Finish";
+import EnvContext from "../EnvContext";
 
 const Main = () => {
   const [sessionLength, setSessionLength] = useState(25);
@@ -45,12 +46,14 @@ const Main = () => {
           />
         </Route>
         <Route exact path="/clock">
-          <Clock
-            task={task}
-            sessionLength={sessionLength}
-            logs={logs}
-            setLogs={setLogs}
-          />
+          <EnvContext.Provider value="prod">
+            <Clock
+              task={task}
+              sessionLength={sessionLength}
+              logs={logs}
+              setLogs={setLogs}
+            />
+          </EnvContext.Provider>
         </Route>
         <Route exact path="/finish">
           <Finish task={task} sessionLength={sessionLength} logs={logs} />

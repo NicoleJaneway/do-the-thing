@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,6 +12,7 @@ import TimerDisplay from "./TimerDisplay";
 import Controls from "./Controls";
 import Popup from "./Popup";
 import theme from "../../theme";
+import EnvContext from "../../EnvContext";
 
 const styles = StyleSheet.create({
   container: {
@@ -22,8 +23,21 @@ const styles = StyleSheet.create({
   },
 });
 
+const prodSettings = {
+  numberOfSeconds: 60,
+  checkin: 8 * 60 * 1000,
+};
+
+const testSettings = {
+  numberOfSeconds: 2,
+  checkin: 4000,
+};
+
 export default function Clock({ task, sessionLength, logs, setLogs }) {
-  const initialTime = sessionLength * 60 * 1000;
+  const environment = useContext(EnvContext);
+  const settings = environment === "prod" ? prodSettings : testSettings;
+
+  const initialTime = sessionLength * settings.numberOfSeconds * 1000;
   const [countdownTime, setCountdownTime] = useState(initialTime);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [displayTime, setDisplayTime] = useState("");
@@ -45,7 +59,7 @@ export default function Clock({ task, sessionLength, logs, setLogs }) {
     setDisplayTime(convert(countdownTime));
     setElapsedTime(initialTime - countdownTime);
 
-    if (elapsedTime > 0 && elapsedTime % (8 * 60 * 1000) === 0) {
+    if (elapsedTime > 0 && elapsedTime % settings.checkin === 0) {
       setModalVisible(true);
     }
   }, [countdownTime]);
