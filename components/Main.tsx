@@ -46,7 +46,7 @@ const Main = () => {
           />
         </Route>
         <Route exact path="/clock">
-          <EnvContext.Provider value="dev">
+          <EnvContext.Provider value="prod">
             <Clock
               task={task}
               sessionLength={sessionLength}
