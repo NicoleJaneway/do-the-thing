@@ -3,6 +3,8 @@ import { StyleSheet, View, Text } from "react-native";
 import { Link } from "react-router-native";
 import { Entypo } from "@expo/vector-icons";
 
+import runTimer from "../../utils/runTimer";
+
 const styles = StyleSheet.create({
   controls: {
     flexDirection: "row",
@@ -18,13 +20,7 @@ export default function Controls({ countdownTime, setCountdownTime }) {
 
   // Timer
   useEffect(() => {
-    if (active && countdownTime >= 1000) {
-      const timer: ReturnType<typeof setTimeout> = setTimeout(
-        () => setCountdownTime((prev) => prev - 1000),
-        1000
-      );
-      return () => clearTimeout(timer);
-    }
+    runTimer(countdownTime, setCountdownTime, active);
   }, [countdownTime, active]);
 
   const handleToggleClick = () => {
