@@ -62,7 +62,7 @@ export default function Clock({
 
   useEffect(() => {
     loadSound();
-  });
+  }, []);
 
   useEffect(() => {
     return sound
