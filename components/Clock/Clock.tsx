@@ -9,6 +9,9 @@ import Popup from "./Popup";
 import theme from "../../theme";
 import EnvContext from "../../EnvContext";
 
+import convert from "../../utils/convert";
+// import { loadSound, playSound, unloadSound } from "../../utils/sound";
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -25,7 +28,7 @@ const prodSettings = {
 
 const testSettings = {
   numberOfSeconds: 2,
-  checkin: 2000,
+  checkin: 4000,
 };
 
 export default function Clock({
@@ -48,42 +51,36 @@ export default function Clock({
 
   const history = useHistory();
 
-  async function loadSound() {
+  async function loadSound(setSound) {
     const { sound } = await Audio.Sound.createAsync(
       require("../../assets/bell.mp3")
     );
+    console.log("Loading Sound");
     setSound(sound);
   }
 
   async function playSound() {
     console.log("Playing Sound");
+    await sound.setPositionAsync(0);
     await sound.playAsync();
   }
 
-  useEffect(() => {
-    loadSound();
-  }, []);
-
-  useEffect(() => {
+  function unloadSound(sound) {
     return sound
       ? () => {
           console.log("Unloading Sound");
           sound.unloadAsync();
         }
       : undefined;
+  }
+
+  useEffect(() => {
+    loadSound(setSound);
+  }, []);
+
+  useEffect(() => {
+    unloadSound(sound);
   }, [history]);
-
-  const convert = (ms: number) => {
-    let seconds: number = Math.floor((ms / 1000) % 60);
-    let minutes: number = Math.floor(ms / (1000 * 60));
-
-    let minutesString: string =
-      minutes < 10 ? "0" + minutes.toString() : minutes.toString();
-    let secondsString: string =
-      seconds < 10 ? "0" + seconds.toString() : seconds.toString();
-
-    return minutesString + ":" + secondsString;
-  };
 
   useEffect(() => {
     setDisplayTime(convert(countdownTime));
@@ -95,7 +92,7 @@ export default function Clock({
       console.log("Mute: " + mute);
       if (!mute) {
         playSound();
-        console.log("Play sound");
+        console.log("within function, sound played");
       }
     }
 

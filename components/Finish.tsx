@@ -33,6 +33,12 @@ const Finish = ({ task, sessionLength, logs }) => {
   } else if (sessionLength === 50) {
     breakLength = 10;
   }
+
+  const initialTime = breakLength * 60 * 1000;
+
+  const [countdownTime, setCountdownTime] = useState(initialTime);
+  const [displayTime, setDisplayTime] = useState("");
+
   const recase = (str: string) => {
     return str[0].toLowerCase() + str.substring(1);
   };
