@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
-import { Link } from "react-router-native";
+import { Link, useHistory } from "react-router-native";
 import Constants from "expo-constants";
 
 import theme from "../theme";
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Finish = ({ task, sessionLength, logs }) => {
+const Finish = ({ task, sessionLength, logs, loop, sessionCount }) => {
   let breakLength = 5;
 
   if (sessionLength === 32) {
@@ -42,6 +42,8 @@ const Finish = ({ task, sessionLength, logs }) => {
   const [countdownTime, setCountdownTime] = useState(initialTime);
   const [displayTime, setDisplayTime] = useState("");
 
+  const history = useHistory();
+
   const recase = (str: string) => {
     return str[0].toLowerCase() + str.substring(1);
   };
@@ -52,6 +54,11 @@ const Finish = ({ task, sessionLength, logs }) => {
 
   useEffect(() => {
     runTimer(countdownTime, setCountdownTime);
+
+    // loop
+    if (loop && countdownTime === 0) {
+      history.push("/clock");
+    }
   }, [countdownTime]);
 
   return (

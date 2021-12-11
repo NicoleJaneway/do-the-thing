@@ -38,6 +38,8 @@ export default function Clock({
   setLogs,
   zenMode,
   mute,
+  sessionCount,
+  setSessionCount,
 }) {
   const environment = useContext(EnvContext);
   const settings = environment === "prod" ? prodSettings : testSettings;
