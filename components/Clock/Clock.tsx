@@ -45,31 +45,30 @@ export default function Clock({
   const history = useHistory();
 
   useEffect(() => {
-    loadSound(setSound);
-  }, []);
-
-  useEffect(() => {
     setDisplayTime(convert(countdownTime));
     setElapsedTime(initialTime - countdownTime);
+
+    // load sound
+    if (!zenMode && !mute && (elapsedTime + 3000) % settings.checkin === 0) {
+      loadSound(setSound);
+    }
 
     // display popup and play beep
     if (!zenMode && elapsedTime > 0 && elapsedTime % settings.checkin === 0) {
       setModalVisible(true);
-      console.log("Mute: " + mute);
       if (!mute) {
         playSound(sound);
-        console.log("Within function, sound played");
+        unloadSound(sound);
       }
     }
 
     // play beep when time is up
     if (countdownTime === 0) {
       setSessionCount(sessionCount + 1);
-
       if (!mute) {
         playSound(sound);
+        unloadSound(sound);
       }
-      unloadSound(sound);
       console.log("Time's up");
       history.push("/finish");
     }

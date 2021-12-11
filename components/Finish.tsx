@@ -53,21 +53,12 @@ const Finish = ({ task, sessionLength, logs, loop, sessionCount }) => {
   const history = useHistory();
 
   const handleToggleClick = () => {
-    console.log("pressed!!");
     setActive(!active);
   };
 
   const recase = (str: string) => {
     return str[0].toLowerCase() + str.substring(1);
   };
-
-  useEffect(() => {
-    console.log("Active: ", active);
-  }, [active]);
-
-  useEffect(() => {
-    console.log("Countdown Time: ", countdownTime);
-  }, [countdownTime]);
 
   useEffect(() => {
     setDisplayTime(convert(countdownTime));
@@ -118,7 +109,7 @@ const Finish = ({ task, sessionLength, logs, loop, sessionCount }) => {
             <Pressable onPress={handleToggleClick}>
               <Entypo
                 name="controller-play"
-                size={16}
+                size={24}
                 color="grey"
                 style={{ opacity: 0.5 }}
               />

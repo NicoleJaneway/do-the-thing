@@ -5,7 +5,7 @@ const prodSettings = {
 
 const testSettings = {
   numberOfSeconds: 1,
-  checkin: 10000,
+  checkin: 4000,
 };
 
 export { prodSettings, testSettings };

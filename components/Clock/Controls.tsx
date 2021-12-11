@@ -30,12 +30,16 @@ export default function Controls({ countdownTime, setCountdownTime, sound }) {
   };
 
   const goBack = () => {
-    unloadSound(sound);
+    if (sound) {
+      unloadSound(sound);
+    }
     history.push("/");
   };
 
   const goForward = () => {
-    unloadSound(sound);
+    if (sound) {
+      unloadSound(sound);
+    }
     history.push("/finish");
   };
 
