@@ -1,18 +1,26 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Text, View, TextInput, Switch } from "react-native";
+import { StyleSheet, Text, View, TextInput, Dimensions } from "react-native";
 import { useHistory } from "react-router-native";
 import { RadioButton } from "react-native-paper";
-import { Link } from "react-router-native";
+import Constants from "expo-constants";
 
 import theme from "../theme";
 
+const viewableArea =
+  Dimensions.get("window").height - Constants.statusBarHeight - 120;
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  bigContainer: {
+    top: Constants.statusBarHeight + 40,
+    height: viewableArea,
+    // borderWidth: 4,
+    // borderColor: "red",
+    justifyContent: "center",
+  },
+  littleContainer: {
     alignItems: "center",
     justifyContent: "center",
     padding: 4,
-    top: -10,
   },
   textInput: {
     marginTop: 4,
@@ -68,85 +76,91 @@ export default function Start({
 
   return (
     <>
-      <View style={styles.container}>
-        <View
-          style={{
-            padding: 20,
-            width: "100%",
-          }}
-        >
-          <Text style={{ fontSize: 16, textAlign: "left" }}>Set task:</Text>
-          <TextInput
-            onChangeText={setTask}
-            value={task}
-            style={styles.textInput}
-          />
-        </View>
-        <View
-          style={{
-            padding: 20,
-            width: "100%",
-          }}
-        >
-          <Text style={{ fontSize: 16, marginBottom: 10 }}>Set pomodoro:</Text>
-          <View style={styles.pomodoroSelector}>
-            <RadioButton
-              value="25"
-              status={sessionLength === 25 ? "checked" : "unchecked"}
-              onPress={() => setSessionLength(25)}
+      <View style={styles.bigContainer}>
+        <View style={styles.littleContainer}>
+          <View
+            style={{
+              padding: 20,
+              width: "100%",
+            }}
+          >
+            <Text style={{ fontSize: 16, textAlign: "left" }}>Set task:</Text>
+            <TextInput
+              onChangeText={setTask}
+              value={task}
+              style={styles.textInput}
             />
-            <Text>25 minutes</Text>
           </View>
-          <View style={styles.pomodoroSelector}>
-            <RadioButton
-              value="32"
-              status={sessionLength === 32 ? "checked" : "unchecked"}
-              onPress={() => setSessionLength(32)}
-            />
-            <Text>32 minutes</Text>
-          </View>
-          <View style={styles.pomodoroSelector}>
-            <RadioButton
-              value="50"
-              status={sessionLength === 50 ? "checked" : "unchecked"}
-              onPress={() => setSessionLength(50)}
-            />
-            <Text>50 minutes</Text>
-          </View>
-        </View>
-        <View
-          style={{
-            padding: 20,
-            width: "100%",
-          }}
-        >
-          <View>
-            <Text style={{ fontSize: 16, textAlign: "left", marginBottom: 4 }}>
-              Other settings:
+          <View
+            style={{
+              padding: 20,
+              width: "100%",
+            }}
+          >
+            <Text style={{ fontSize: 16, marginBottom: 10 }}>
+              Set pomodoro:
             </Text>
             <View style={styles.pomodoroSelector}>
               <RadioButton
-                value="loop"
-                status={loop === true ? "checked" : "unchecked"}
-                onPress={() => setLoop(!loop)}
+                value="25"
+                status={sessionLength === 25 ? "checked" : "unchecked"}
+                onPress={() => setSessionLength(25)}
               />
-              <Text>Loop</Text>
+              <Text>25 minutes</Text>
             </View>
             <View style={styles.pomodoroSelector}>
               <RadioButton
-                value="mute"
-                status={mute === true ? "checked" : "unchecked"}
-                onPress={() => setMute(!mute)}
+                value="32"
+                status={sessionLength === 32 ? "checked" : "unchecked"}
+                onPress={() => setSessionLength(32)}
               />
-              <Text>Mute</Text>
+              <Text>32 minutes</Text>
             </View>
             <View style={styles.pomodoroSelector}>
               <RadioButton
-                value="zen mode"
-                status={zenMode === true ? "checked" : "unchecked"}
-                onPress={() => setZenMode(!zenMode)}
+                value="50"
+                status={sessionLength === 50 ? "checked" : "unchecked"}
+                onPress={() => setSessionLength(50)}
               />
-              <Text>Zen</Text>
+              <Text>50 minutes</Text>
+            </View>
+          </View>
+          <View
+            style={{
+              padding: 20,
+              width: "100%",
+            }}
+          >
+            <View>
+              <Text
+                style={{ fontSize: 16, textAlign: "left", marginBottom: 4 }}
+              >
+                Other settings:
+              </Text>
+              <View style={styles.pomodoroSelector}>
+                <RadioButton
+                  value="loop"
+                  status={loop === true ? "checked" : "unchecked"}
+                  onPress={() => setLoop(!loop)}
+                />
+                <Text>Loop</Text>
+              </View>
+              <View style={styles.pomodoroSelector}>
+                <RadioButton
+                  value="mute"
+                  status={mute === true ? "checked" : "unchecked"}
+                  onPress={() => setMute(!mute)}
+                />
+                <Text>Mute</Text>
+              </View>
+              <View style={styles.pomodoroSelector}>
+                <RadioButton
+                  value="zen mode"
+                  status={zenMode === true ? "checked" : "unchecked"}
+                  onPress={() => setZenMode(!zenMode)}
+                />
+                <Text>Zen</Text>
+              </View>
             </View>
           </View>
         </View>

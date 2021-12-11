@@ -48,7 +48,7 @@ export default function Clock({
     setDisplayTime(convert(countdownTime));
     setElapsedTime(initialTime - countdownTime);
 
-    // load sound
+    // load sound before checkin
     if (!zenMode && !mute && (elapsedTime + 3000) % settings.checkin === 0) {
       loadSound(setSound);
     }
@@ -60,6 +60,11 @@ export default function Clock({
         playSound(sound);
         unloadSound(sound);
       }
+    }
+
+    // load sound before end
+    if (!mute && countdownTime - 3000 === 0) {
+      loadSound(setSound);
     }
 
     // play beep when time is up
