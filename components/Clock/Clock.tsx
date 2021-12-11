@@ -58,7 +58,7 @@ export default function Clock({
       console.log("Mute: " + mute);
       if (!mute) {
         playSound(sound);
-        console.log("within function, sound played");
+        console.log("Within function, sound played");
       }
     }
 

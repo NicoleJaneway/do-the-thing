@@ -53,12 +53,21 @@ const Finish = ({ task, sessionLength, logs, loop, sessionCount }) => {
   const history = useHistory();
 
   const handleToggleClick = () => {
+    console.log("pressed!!");
     setActive(!active);
   };
 
   const recase = (str: string) => {
     return str[0].toLowerCase() + str.substring(1);
   };
+
+  useEffect(() => {
+    console.log("Active: ", active);
+  }, [active]);
+
+  useEffect(() => {
+    console.log("Countdown Time: ", countdownTime);
+  }, [countdownTime]);
 
   useEffect(() => {
     setDisplayTime(convert(countdownTime));
@@ -78,12 +87,12 @@ const Finish = ({ task, sessionLength, logs, loop, sessionCount }) => {
     <>
       <View
         style={{
-          // flexDirection: "row",
           alignItems: "center",
           marginBottom: 20,
           position: "absolute",
           right: 20,
           top: Constants.statusBarHeight + 40,
+          zIndex: 100,
         }}
       >
         <Text style={{ fontStyle: "italic" }}>break</Text>
@@ -97,30 +106,33 @@ const Finish = ({ task, sessionLength, logs, loop, sessionCount }) => {
         </Text>
         {countdownTime > 0 ? (
           active ? (
-            <Entypo
-              name="controller-paus"
-              size={24}
-              color="grey"
-              style={{ opacity: 0.5 }}
-              onPress={handleToggleClick}
-            />
+            <Pressable onPress={handleToggleClick}>
+              <Entypo
+                name="controller-paus"
+                size={24}
+                color="grey"
+                style={{ opacity: 0.5 }}
+              />
+            </Pressable>
           ) : (
-            <Entypo
-              name="controller-play"
-              size={24}
-              color="grey"
-              style={{ opacity: 0.5 }}
-              onPress={handleToggleClick}
-            />
+            <Pressable onPress={handleToggleClick}>
+              <Entypo
+                name="controller-play"
+                size={16}
+                color="grey"
+                style={{ opacity: 0.5 }}
+              />
+            </Pressable>
           )
         ) : (
-          <Entypo
-            name="cycle"
-            size={24}
-            color="grey"
-            style={{ opacity: 0.5 }}
-            onPress={() => setCountdownTime(initialTime)}
-          />
+          <Pressable onPress={() => setCountdownTime(initialTime)}>
+            <Entypo
+              name="cycle"
+              size={24}
+              color="grey"
+              style={{ opacity: 0.5 }}
+            />
+          </Pressable>
         )}
       </View>
       <View style={styles.container}>

@@ -9,9 +9,11 @@ async function loadSound(setSound) {
 }
 
 async function playSound(sound) {
+  console.log("Before sound played: ", sound);
   console.log("Playing Sound");
   await sound.setPositionAsync(0);
   await sound.playAsync();
+  console.log("After sound played: ", sound);
 }
 
 function unloadSound(sound) {
