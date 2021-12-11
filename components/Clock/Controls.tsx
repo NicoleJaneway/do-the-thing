@@ -25,19 +25,17 @@ export default function Controls({ countdownTime, setCountdownTime, sound }) {
     runTimer(countdownTime, setCountdownTime, active);
   }, [countdownTime, active]);
 
-  useEffect(() => {
-    unloadSound(sound);
-  }, [history]);
-
   const handleToggleClick = () => {
     setActive(!active);
   };
 
   const goBack = () => {
+    unloadSound(sound);
     history.push("/");
   };
 
   const goForward = () => {
+    unloadSound(sound);
     history.push("/finish");
   };
 

@@ -56,10 +56,6 @@ export default function Clock({
   }, []);
 
   useEffect(() => {
-    unloadSound(sound);
-  }, [history]);
-
-  useEffect(() => {
     setDisplayTime(convert(countdownTime));
     setElapsedTime(initialTime - countdownTime);
 
@@ -75,11 +71,12 @@ export default function Clock({
 
     // play beep when time is up
     if (countdownTime === 0) {
-      console.log("Time's up");
-      history.push("/finish");
       if (!mute) {
         playSound(sound);
       }
+      unloadSound(sound);
+      console.log("Time's up");
+      history.push("/finish");
     }
   }, [countdownTime]);
 
@@ -90,6 +87,7 @@ export default function Clock({
         <Controls
           countdownTime={countdownTime}
           setCountdownTime={setCountdownTime}
+          sound={sound}
         />
         <Popup
           sessionLength={sessionLength}
