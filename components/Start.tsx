@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 4,
+    top: -10,
   },
   textInput: {
     marginTop: 4,
@@ -51,10 +52,14 @@ export default function Start({
   setZenMode,
   mute,
   setMute,
+  loop,
+  setLoop,
+  setSessionCount,
 }) {
   useEffect(() => {
     setTask("");
     setLogs([]);
+    setSessionCount(0);
   }, []);
 
   return (
@@ -117,11 +122,11 @@ export default function Start({
             </Text>
             <View style={styles.pomodoroSelector}>
               <RadioButton
-                value="zen mode"
-                status={zenMode === true ? "checked" : "unchecked"}
-                onPress={() => setZenMode(!zenMode)}
+                value="loop"
+                status={loop === true ? "checked" : "unchecked"}
+                onPress={() => setLoop(!loop)}
               />
-              <Text>Zen mode</Text>
+              <Text>Loop</Text>
             </View>
             <View style={styles.pomodoroSelector}>
               <RadioButton
@@ -130,6 +135,14 @@ export default function Start({
                 onPress={() => setMute(!mute)}
               />
               <Text>Mute</Text>
+            </View>
+            <View style={styles.pomodoroSelector}>
+              <RadioButton
+                value="zen mode"
+                status={zenMode === true ? "checked" : "unchecked"}
+                onPress={() => setZenMode(!zenMode)}
+              />
+              <Text>Zen</Text>
             </View>
           </View>
         </View>

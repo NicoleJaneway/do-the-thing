@@ -13,8 +13,10 @@ const Main = () => {
   const [sessionLength, setSessionLength] = useState(25);
   const [task, setTask] = useState("");
   const [logs, setLogs] = useState([]);
-  const [zenMode, setZenMode] = useState(false);
+  const [loop, setLoop] = useState(false);
   const [mute, setMute] = useState(false);
+  const [zenMode, setZenMode] = useState(false);
+  const [sessionCount, setSessionCount] = useState(0);
 
   return (
     <>
@@ -43,6 +45,9 @@ const Main = () => {
             setZenMode={setZenMode}
             mute={mute}
             setMute={setMute}
+            loop={loop}
+            setLoop={setLoop}
+            setSessionCount={setSessionCount}
           />
         </Route>
         <Route exact path="/clock">
@@ -54,11 +59,19 @@ const Main = () => {
               setLogs={setLogs}
               zenMode={zenMode}
               mute={mute}
+              sessionCount={sessionCount}
+              setSessionCount={setSessionCount}
             />
           </EnvContext.Provider>
         </Route>
         <Route exact path="/finish">
-          <Finish task={task} sessionLength={sessionLength} logs={logs} />
+          <Finish
+            task={task}
+            sessionLength={sessionLength}
+            logs={logs}
+            loop={loop}
+            sessionCount={sessionCount}
+          />
         </Route>
         <Redirect to="/" />
       </Switch>

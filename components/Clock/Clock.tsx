@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { useHistory } from "react-router-native";
 import { Audio } from "expo-av";
@@ -9,6 +9,7 @@ import Popup from "./Popup";
 import theme from "../../theme";
 import EnvContext from "../../EnvContext";
 
+import { prodSettings, testSettings } from "../../utils/settings";
 import convert from "../../utils/convert";
 import { loadSound, playSound, unloadSound } from "../../utils/sound";
 
@@ -21,16 +22,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const prodSettings = {
-  numberOfSeconds: 60,
-  checkin: 8 * 60 * 1000,
-};
-
-const testSettings = {
-  numberOfSeconds: 2,
-  checkin: 2000,
-};
-
 export default function Clock({
   task,
   sessionLength,
@@ -38,6 +29,8 @@ export default function Clock({
   setLogs,
   zenMode,
   mute,
+  sessionCount,
+  setSessionCount,
 }) {
   const environment = useContext(EnvContext);
   const settings = environment === "prod" ? prodSettings : testSettings;
@@ -71,6 +64,8 @@ export default function Clock({
 
     // play beep when time is up
     if (countdownTime === 0) {
+      setSessionCount(sessionCount + 1);
+
       if (!mute) {
         playSound(sound);
       }

@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
-import { Link } from "react-router-native";
+import React, { useEffect, useState, useContext } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Link, useHistory } from "react-router-native";
 import Constants from "expo-constants";
+import { Entypo } from "@expo/vector-icons";
 
+import EnvContext from "../EnvContext";
+
+import { prodSettings, testSettings } from "../utils/settings";
 import theme from "../theme";
 import convert from "../utils/convert";
 import runTimer from "../utils/runTimer";
@@ -28,7 +32,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Finish = ({ task, sessionLength, logs }) => {
+const Finish = ({ task, sessionLength, logs, loop, sessionCount }) => {
   let breakLength = 5;
 
   if (sessionLength === 32) {
@@ -37,10 +41,20 @@ const Finish = ({ task, sessionLength, logs }) => {
     breakLength = 10;
   }
 
-  const initialTime = breakLength * 60 * 1000;
+  const environment = useContext(EnvContext);
+  const settings = environment === "prod" ? prodSettings : testSettings;
+
+  const initialTime = breakLength * settings.numberOfSeconds * 1000;
 
   const [countdownTime, setCountdownTime] = useState(initialTime);
   const [displayTime, setDisplayTime] = useState("");
+  const [active, setActive] = useState(true);
+
+  const history = useHistory();
+
+  const handleToggleClick = () => {
+    setActive(!active);
+  };
 
   const recase = (str: string) => {
     return str[0].toLowerCase() + str.substring(1);
@@ -51,8 +65,14 @@ const Finish = ({ task, sessionLength, logs }) => {
   });
 
   useEffect(() => {
-    runTimer(countdownTime, setCountdownTime);
-  }, [countdownTime]);
+    // Timer
+    runTimer(countdownTime, setCountdownTime, active);
+
+    // loop
+    if (loop && countdownTime === 0) {
+      history.push("/clock");
+    }
+  }, [countdownTime, active]);
 
   return (
     <>
@@ -75,11 +95,45 @@ const Finish = ({ task, sessionLength, logs }) => {
         >
           {displayTime}
         </Text>
+        {countdownTime > 0 ? (
+          active ? (
+            <Entypo
+              name="controller-paus"
+              size={24}
+              color="grey"
+              style={{ opacity: 0.5 }}
+              onPress={handleToggleClick}
+            />
+          ) : (
+            <Entypo
+              name="controller-play"
+              size={24}
+              color="grey"
+              style={{ opacity: 0.5 }}
+              onPress={handleToggleClick}
+            />
+          )
+        ) : (
+          <Entypo
+            name="cycle"
+            size={24}
+            color="grey"
+            style={{ opacity: 0.5 }}
+            onPress={() => setCountdownTime(initialTime)}
+          />
+        )}
       </View>
       <View style={styles.container}>
-        <Text style={{ marginBottom: 40, fontSize: 20 }}>
-          Good job{task === "" ? "!" : " working on " + recase(task)}
-        </Text>
+        <View style={{ marginBottom: 40, alignItems: "center" }}>
+          <Text style={{ fontSize: 20 }}>
+            Good job{task === "" ? "!" : " working on " + recase(task)}
+          </Text>
+          {sessionCount > 0 && (
+            <Text style={{ marginBottom: 8, fontStyle: "italic" }}>
+              Sessions completed: {sessionCount}
+            </Text>
+          )}
+        </View>
         {logs.length > 0 && (
           <Text style={{ fontSize: 18, marginBottom: 8 }}>Your summary:</Text>
         )}
