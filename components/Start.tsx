@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View, TextInput, Switch } from "react-native";
+import { useHistory } from "react-router-native";
 import { RadioButton } from "react-native-paper";
 import { Link } from "react-router-native";
 
@@ -39,6 +40,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignSelf: "center",
     bottom: 80,
+    zIndex: 100,
   },
 });
 
@@ -56,6 +58,8 @@ export default function Start({
   setLoop,
   setSessionCount,
 }) {
+  const history = useHistory();
+
   useEffect(() => {
     setTask("");
     setLogs([]);
@@ -147,9 +151,9 @@ export default function Start({
           </View>
         </View>
       </View>
-      <Link to="/clock">
-        <Text style={styles.pressable}>Start</Text>
-      </Link>
+      <Text style={styles.pressable} onPress={() => history.push("/clock")}>
+        Start
+      </Text>
     </>
   );
 }
