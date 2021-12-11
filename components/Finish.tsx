@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Link, useHistory } from "react-router-native";
 import Constants from "expo-constants";
 import { Entypo } from "@expo/vector-icons";
@@ -95,25 +95,33 @@ const Finish = ({ task, sessionLength, logs, loop, sessionCount }) => {
         >
           {displayTime}
         </Text>
-        <Text onPress={handleToggleClick}>
-          {countdownTime > 0 ? (
-            active ? (
-              <Entypo
-                name="controller-paus"
-                size={24}
-                color="grey"
-                style={{ opacity: 0.5 }}
-              />
-            ) : (
-              <Entypo
-                name="controller-play"
-                size={24}
-                color="grey"
-                style={{ opacity: 0.5 }}
-              />
-            )
-          ) : null}
-        </Text>
+        {countdownTime > 0 ? (
+          active ? (
+            <Entypo
+              name="controller-paus"
+              size={24}
+              color="grey"
+              style={{ opacity: 0.5 }}
+              onPress={handleToggleClick}
+            />
+          ) : (
+            <Entypo
+              name="controller-play"
+              size={24}
+              color="grey"
+              style={{ opacity: 0.5 }}
+              onPress={handleToggleClick}
+            />
+          )
+        ) : (
+          <Entypo
+            name="cycle"
+            size={24}
+            color="grey"
+            style={{ opacity: 0.5 }}
+            onPress={() => setCountdownTime(initialTime)}
+          />
+        )}
       </View>
       <View style={styles.container}>
         <View style={{ marginBottom: 40, alignItems: "center" }}>
