@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
-import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Link, useHistory } from "react-router-native";
 import Constants from "expo-constants";
+import { Entypo } from "@expo/vector-icons";
 
 import EnvContext from "../EnvContext";
 
@@ -47,8 +48,13 @@ const Finish = ({ task, sessionLength, logs, loop, sessionCount }) => {
 
   const [countdownTime, setCountdownTime] = useState(initialTime);
   const [displayTime, setDisplayTime] = useState("");
+  const [active, setActive] = useState(true);
 
   const history = useHistory();
+
+  const handleToggleClick = () => {
+    setActive(!active);
+  };
 
   const recase = (str: string) => {
     return str[0].toLowerCase() + str.substring(1);
@@ -59,13 +65,14 @@ const Finish = ({ task, sessionLength, logs, loop, sessionCount }) => {
   });
 
   useEffect(() => {
-    runTimer(countdownTime, setCountdownTime);
+    // Timer
+    runTimer(countdownTime, setCountdownTime, active);
 
     // loop
     if (loop && countdownTime === 0) {
       history.push("/clock");
     }
-  }, [countdownTime]);
+  }, [countdownTime, active]);
 
   return (
     <>
@@ -87,6 +94,25 @@ const Finish = ({ task, sessionLength, logs, loop, sessionCount }) => {
           }}
         >
           {displayTime}
+        </Text>
+        <Text onPress={handleToggleClick}>
+          {countdownTime > 0 ? (
+            active ? (
+              <Entypo
+                name="controller-paus"
+                size={24}
+                color="grey"
+                style={{ opacity: 0.5 }}
+              />
+            ) : (
+              <Entypo
+                name="controller-play"
+                size={24}
+                color="grey"
+                style={{ opacity: 0.5 }}
+              />
+            )
+          ) : null}
         </Text>
       </View>
       <View style={styles.container}>
