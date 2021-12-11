@@ -93,6 +93,11 @@ const Finish = ({ task, sessionLength, logs, loop, sessionCount }) => {
         <Text style={{ marginBottom: 40, fontSize: 20 }}>
           Good job{task === "" ? "!" : " working on " + recase(task)}
         </Text>
+        {sessionCount > 0 && (
+          <Text style={{ marginBottom: 8, fontStyle: "italic" }}>
+            Sessions completed: {sessionCount}
+          </Text>
+        )}
         {logs.length > 0 && (
           <Text style={{ fontSize: 18, marginBottom: 8 }}>Your summary:</Text>
         )}
