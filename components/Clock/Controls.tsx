@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { Link } from "react-router-native";
+import { useHistory } from "react-router-native";
 import { Entypo } from "@expo/vector-icons";
 
 import runTimer from "../../utils/runTimer";
+import { unloadSound } from "../../utils/sound";
 
 const styles = StyleSheet.create({
   controls: {
@@ -15,8 +16,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Controls({ countdownTime, setCountdownTime }) {
+export default function Controls({ countdownTime, setCountdownTime, sound }) {
   const [active, setActive] = useState(true);
+  const history = useHistory();
 
   // Timer
   useEffect(() => {
@@ -27,17 +29,26 @@ export default function Controls({ countdownTime, setCountdownTime }) {
     setActive(!active);
   };
 
+  const goBack = () => {
+    unloadSound(sound);
+    history.push("/");
+  };
+
+  const goForward = () => {
+    unloadSound(sound);
+    history.push("/finish");
+  };
+
   return (
     <>
       <View style={styles.controls}>
-        <Link to="/">
-          <Entypo
-            name="controller-jump-to-start"
-            size={24}
-            color="black"
-            style={styles.element}
-          />
-        </Link>
+        <Entypo
+          name="controller-jump-to-start"
+          size={24}
+          color="black"
+          style={styles.element}
+          onPress={goBack}
+        />
         <Text onPress={handleToggleClick} style={styles.element}>
           {active ? (
             <Entypo name="controller-paus" size={24} color="black" />
@@ -45,14 +56,13 @@ export default function Controls({ countdownTime, setCountdownTime }) {
             <Entypo name="controller-play" size={24} color="black" />
           )}
         </Text>
-        <Link to="/finish">
-          <Entypo
-            name="controller-next"
-            size={24}
-            color="black"
-            style={styles.element}
-          />
-        </Link>
+        <Entypo
+          name="controller-next"
+          size={24}
+          color="black"
+          style={styles.element}
+          onPress={goForward}
+        />
       </View>
     </>
   );

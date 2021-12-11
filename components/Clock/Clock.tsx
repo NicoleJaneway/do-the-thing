@@ -10,7 +10,7 @@ import theme from "../../theme";
 import EnvContext from "../../EnvContext";
 
 import convert from "../../utils/convert";
-// import { loadSound, playSound, unloadSound } from "../../utils/sound";
+import { loadSound, playSound, unloadSound } from "../../utils/sound";
 
 const styles = StyleSheet.create({
   container: {
@@ -28,7 +28,7 @@ const prodSettings = {
 
 const testSettings = {
   numberOfSeconds: 2,
-  checkin: 4000,
+  checkin: 2000,
 };
 
 export default function Clock({
@@ -51,36 +51,9 @@ export default function Clock({
 
   const history = useHistory();
 
-  async function loadSound(setSound) {
-    const { sound } = await Audio.Sound.createAsync(
-      require("../../assets/bell.mp3")
-    );
-    console.log("Loading Sound");
-    setSound(sound);
-  }
-
-  async function playSound() {
-    console.log("Playing Sound");
-    await sound.setPositionAsync(0);
-    await sound.playAsync();
-  }
-
-  function unloadSound(sound) {
-    return sound
-      ? () => {
-          console.log("Unloading Sound");
-          sound.unloadAsync();
-        }
-      : undefined;
-  }
-
   useEffect(() => {
     loadSound(setSound);
   }, []);
-
-  useEffect(() => {
-    unloadSound(sound);
-  }, [history]);
 
   useEffect(() => {
     setDisplayTime(convert(countdownTime));
@@ -91,18 +64,19 @@ export default function Clock({
       setModalVisible(true);
       console.log("Mute: " + mute);
       if (!mute) {
-        playSound();
+        playSound(sound);
         console.log("within function, sound played");
       }
     }
 
     // play beep when time is up
     if (countdownTime === 0) {
+      if (!mute) {
+        playSound(sound);
+      }
+      unloadSound(sound);
       console.log("Time's up");
       history.push("/finish");
-      if (!mute) {
-        playSound();
-      }
     }
   }, [countdownTime]);
 
@@ -113,6 +87,7 @@ export default function Clock({
         <Controls
           countdownTime={countdownTime}
           setCountdownTime={setCountdownTime}
+          sound={sound}
         />
         <Popup
           sessionLength={sessionLength}

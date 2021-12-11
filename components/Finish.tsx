@@ -37,7 +37,7 @@ const Finish = ({ task, sessionLength, logs }) => {
     breakLength = 10;
   }
 
-  const initialTime = breakLength * 1 * 1000;
+  const initialTime = breakLength * 60 * 1000;
 
   const [countdownTime, setCountdownTime] = useState(initialTime);
   const [displayTime, setDisplayTime] = useState("");
