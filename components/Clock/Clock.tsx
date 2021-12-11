@@ -27,8 +27,8 @@ const prodSettings = {
 };
 
 const testSettings = {
-  numberOfSeconds: 2,
-  checkin: 2000,
+  numberOfSeconds: 1,
+  checkin: 10000,
 };
 
 export default function Clock({

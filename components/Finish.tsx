@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
 import { Link, useHistory } from "react-router-native";
 import Constants from "expo-constants";
 
+import EnvContext from "../EnvContext";
+
+import { prodSettings, testSettings } from "../utils/settings";
 import theme from "../theme";
 import convert from "../utils/convert";
 import runTimer from "../utils/runTimer";
@@ -37,7 +40,10 @@ const Finish = ({ task, sessionLength, logs, loop, sessionCount }) => {
     breakLength = 10;
   }
 
-  const initialTime = breakLength * 60 * 1000;
+  const environment = useContext(EnvContext);
+  const settings = environment === "prod" ? prodSettings : testSettings;
+
+  const initialTime = breakLength * settings.numberOfSeconds * 1000;
 
   const [countdownTime, setCountdownTime] = useState(initialTime);
   const [displayTime, setDisplayTime] = useState("");

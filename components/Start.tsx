@@ -123,7 +123,7 @@ export default function Start({
             <View style={styles.pomodoroSelector}>
               <RadioButton
                 value="loop"
-                status={mute === true ? "checked" : "unchecked"}
+                status={loop === true ? "checked" : "unchecked"}
                 onPress={() => setLoop(!loop)}
               />
               <Text>Loop</Text>
