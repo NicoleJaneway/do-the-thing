@@ -10,7 +10,7 @@ import theme from "../../theme";
 import EnvContext from "../../EnvContext";
 
 import convert from "../../utils/convert";
-// import { loadSound, playSound, unloadSound } from "../../utils/sound";
+import { loadSound, playSound, unloadSound } from "../../utils/sound";
 
 const styles = StyleSheet.create({
   container: {
@@ -28,7 +28,7 @@ const prodSettings = {
 
 const testSettings = {
   numberOfSeconds: 2,
-  checkin: 8000,
+  checkin: 2000,
 };
 
 export default function Clock({
@@ -51,29 +51,6 @@ export default function Clock({
 
   const history = useHistory();
 
-  async function loadSound(setSound) {
-    const { sound } = await Audio.Sound.createAsync(
-      require("../../assets/bell.mp3")
-    );
-    console.log("Loading Sound");
-    setSound(sound);
-  }
-
-  async function playSound() {
-    console.log("Playing Sound");
-    await sound.setPositionAsync(0);
-    await sound.playAsync();
-  }
-
-  function unloadSound(sound) {
-    return sound
-      ? () => {
-          console.log("Unloading Sound");
-          sound.unloadAsync();
-        }
-      : undefined;
-  }
-
   useEffect(() => {
     loadSound(setSound);
   }, []);
@@ -91,7 +68,7 @@ export default function Clock({
       setModalVisible(true);
       console.log("Mute: " + mute);
       if (!mute) {
-        playSound();
+        playSound(sound);
         console.log("within function, sound played");
       }
     }
@@ -101,7 +78,7 @@ export default function Clock({
       console.log("Time's up");
       history.push("/finish");
       if (!mute) {
-        playSound();
+        playSound(sound);
       }
     }
   }, [countdownTime]);

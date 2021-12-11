@@ -8,7 +8,7 @@ async function loadSound(setSound) {
   setSound(sound);
 }
 
-async function playSound() {
+async function playSound(sound) {
   console.log("Playing Sound");
   await sound.setPositionAsync(0);
   await sound.playAsync();
