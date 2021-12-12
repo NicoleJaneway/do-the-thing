@@ -6,6 +6,7 @@ const theme = {
     textSecondary: "#586069",
     primary: "#7fd1c7",
     secondary: "#add8e6",
+    tertiary: "#bfe8e3",
     error: "#d73a4a",
   },
   fontSizes: {
