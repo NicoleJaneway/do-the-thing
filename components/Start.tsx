@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View, TextInput, Dimensions } from "react-native";
 import { useHistory } from "react-router-native";
-import { RadioButton } from "react-native-paper";
+import { RadioButton, Checkbox } from "react-native-paper";
 import Constants from "expo-constants";
 
 import theme from "../theme";
@@ -138,24 +138,21 @@ export default function Start({
                 Other settings:
               </Text>
               <View style={styles.pomodoroSelector}>
-                <RadioButton
-                  value="loop"
+                <Checkbox
                   status={loop === true ? "checked" : "unchecked"}
                   onPress={() => setLoop(!loop)}
                 />
                 <Text>Loop</Text>
               </View>
               <View style={styles.pomodoroSelector}>
-                <RadioButton
-                  value="mute"
+                <Checkbox
                   status={mute === true ? "checked" : "unchecked"}
                   onPress={() => setMute(!mute)}
                 />
                 <Text>Mute</Text>
               </View>
               <View style={styles.pomodoroSelector}>
-                <RadioButton
-                  value="zen mode"
+                <Checkbox
                   status={zenMode === true ? "checked" : "unchecked"}
                   onPress={() => setZenMode(!zenMode)}
                 />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View, Dimensions } from "react-native";
 import { Link, useHistory } from "react-router-native";
 import Constants from "expo-constants";
 import { Entypo } from "@expo/vector-icons";
@@ -11,12 +11,26 @@ import theme from "../theme";
 import convert from "../utils/convert";
 import runTimer from "../utils/runTimer";
 
+const viewableArea =
+  Dimensions.get("window").height - Constants.statusBarHeight - 120;
+
 const styles = StyleSheet.create({
+  breakContainer: {
+    alignItems: "center",
+    marginBottom: 20,
+    position: "absolute",
+    right: 20,
+    top: Constants.statusBarHeight + 40,
+    zIndex: 100,
+  },
   container: {
-    flex: 1,
+    top: Constants.statusBarHeight + 40,
+    height: viewableArea,
     alignItems: "center",
     justifyContent: "center",
     padding: 4,
+    // borderWidth: 4,
+    // borderColor: "red",
   },
   pressable: {
     height: 30,
@@ -76,16 +90,7 @@ const Finish = ({ task, sessionLength, logs, loop, sessionCount }) => {
 
   return (
     <>
-      <View
-        style={{
-          alignItems: "center",
-          marginBottom: 20,
-          position: "absolute",
-          right: 20,
-          top: Constants.statusBarHeight + 40,
-          zIndex: 100,
-        }}
-      >
+      <View style={styles.breakContainer}>
         <Text style={{ fontStyle: "italic" }}>break</Text>
         <Text
           style={{
@@ -127,11 +132,18 @@ const Finish = ({ task, sessionLength, logs, loop, sessionCount }) => {
         )}
       </View>
       <View style={styles.container}>
-        <View style={{ marginBottom: 40, alignItems: "center" }}>
-          <Text style={{ fontSize: 20 }}>
+        <View
+          style={{
+            marginBottom: 40,
+            alignItems: "center",
+            paddingLeft: 20,
+            paddingRight: 20,
+          }}
+        >
+          <Text style={{ fontSize: 20, textAlign: "center" }}>
             Good job{task === "" ? "!" : " working on " + recase(task)}
           </Text>
-          {sessionCount > 0 && (
+          {sessionCount > 1 && (
             <Text style={{ marginBottom: 8, fontStyle: "italic" }}>
               Sessions completed: {sessionCount}
             </Text>
@@ -143,7 +155,6 @@ const Finish = ({ task, sessionLength, logs, loop, sessionCount }) => {
         <View
           style={{
             width: "100%",
-            textAlign: "left",
             paddingLeft: 20,
             paddingRight: 20,
             paddingTop: 10,
@@ -160,9 +171,9 @@ const Finish = ({ task, sessionLength, logs, loop, sessionCount }) => {
           ))}
         </View>
       </View>
-      <Link to="/">
-        <Text style={styles.pressable}>Restart</Text>
-      </Link>
+      <Text style={styles.pressable} onPress={() => history.push("/")}>
+        Restart
+      </Text>
     </>
   );
 };
