@@ -50,8 +50,8 @@ const Main = () => {
             setSessionCount={setSessionCount}
           />
         </Route>
-        <Route exact path="/clock">
-          <EnvContext.Provider value="dev">
+        <EnvContext.Provider value="prod">
+          <Route exact path="/clock">
             <Clock
               task={task}
               sessionLength={sessionLength}
@@ -62,17 +62,17 @@ const Main = () => {
               sessionCount={sessionCount}
               setSessionCount={setSessionCount}
             />
-          </EnvContext.Provider>
-        </Route>
-        <Route exact path="/finish">
-          <Finish
-            task={task}
-            sessionLength={sessionLength}
-            logs={logs}
-            loop={loop}
-            sessionCount={sessionCount}
-          />
-        </Route>
+          </Route>
+          <Route exact path="/finish">
+            <Finish
+              task={task}
+              sessionLength={sessionLength}
+              logs={logs}
+              loop={loop}
+              sessionCount={sessionCount}
+            />
+          </Route>
+        </EnvContext.Provider>
         <Redirect to="/" />
       </Switch>
       {/* <StatusBar style="light" /> */}
