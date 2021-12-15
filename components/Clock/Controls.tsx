@@ -3,8 +3,13 @@ import { StyleSheet, View, Text } from "react-native";
 import { useHistory } from "react-router-native";
 import { Entypo } from "@expo/vector-icons";
 
-import runTimer from "../../utils/runTimer";
+import { runTimer } from "../../utils/utils";
 import { unloadSound } from "../../utils/sound";
+
+import * as TaskManager from "expo-task-manager";
+import * as BackgroundFetch from "expo-background-fetch";
+
+const OFFLINE_TASK_NAME = "background-offline-upload-task";
 
 const styles = StyleSheet.create({
   controls: {

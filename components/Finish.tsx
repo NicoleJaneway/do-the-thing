@@ -8,8 +8,8 @@ import EnvContext from "../EnvContext";
 
 import { prodSettings, testSettings } from "../utils/settings";
 import theme from "../theme";
-import convert from "../utils/convert";
-import runTimer from "../utils/runTimer";
+import { convert } from "../utils/utils";
+import { runTimer } from "../utils/utils";
 
 const viewableArea =
   Dimensions.get("window").height - Constants.statusBarHeight - 120;

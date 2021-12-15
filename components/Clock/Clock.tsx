@@ -10,7 +10,7 @@ import theme from "../../theme";
 import EnvContext from "../../EnvContext";
 
 import { prodSettings, testSettings } from "../../utils/settings";
-import convert from "../../utils/convert";
+import { convert } from "../../utils/utils";
 import { loadSound, playSound, unloadSound } from "../../utils/sound";
 
 const styles = StyleSheet.create({
