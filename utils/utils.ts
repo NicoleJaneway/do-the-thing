@@ -1,11 +1,21 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { differenceInSeconds } from "date-fns";
 
 const recordStartTime = async () => {
   try {
     const now = new Date();
     await AsyncStorage.setItem("@start_time", now.toISOString());
   } catch (err) {
-    // TODO: handle errors from setItem properly
+    console.warn(err);
+  }
+};
+
+const getElapsedTime = async () => {
+  try {
+    const startTime = await AsyncStorage.getItem("@start_time");
+    const now = new Date();
+    return differenceInSeconds(now, Date.parse(startTime));
+  } catch (err) {
     console.warn(err);
   }
 };
@@ -36,4 +46,4 @@ const convert = (ms: number) => {
   return minutesString + ":" + secondsString;
 };
 
-export { recordStartTime, runTimer, convert };
+export { recordStartTime, getElapsedTime, runTimer, convert };

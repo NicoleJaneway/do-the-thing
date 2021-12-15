@@ -4,6 +4,7 @@ import { useHistory } from "react-router-native";
 import { RadioButton, Checkbox } from "react-native-paper";
 import Constants from "expo-constants";
 
+import { recordStartTime } from "../utils/utils";
 import theme from "../theme";
 
 const viewableArea =
@@ -13,8 +14,6 @@ const styles = StyleSheet.create({
   bigContainer: {
     top: Constants.statusBarHeight + 40,
     height: viewableArea,
-    // borderWidth: 4,
-    // borderColor: "red",
     justifyContent: "center",
   },
   littleContainer: {
@@ -73,6 +72,11 @@ export default function Start({
     setLogs([]);
     setSessionCount(0);
   }, []);
+
+  const handleStart = () => {
+    recordStartTime();
+    history.push("/clock");
+  };
 
   return (
     <>
@@ -162,7 +166,7 @@ export default function Start({
           </View>
         </View>
       </View>
-      <Text style={styles.pressable} onPress={() => history.push("/clock")}>
+      <Text style={styles.pressable} onPress={handleStart}>
         Start
       </Text>
     </>
