@@ -31,7 +31,7 @@ const Main = () => {
           zIndex: 100,
         }}
       >
-        do the thing
+        do-the-thing
       </Text>
       <Switch>
         <Route exact path="/">
