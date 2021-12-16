@@ -79,7 +79,7 @@ export default function Start({
   return (
     <>
       <View style={styles.bigContainer}>
-        <Text style={{ textAlign: "center" }}>built 1915</Text>
+        {/* <Text style={{ textAlign: "center" }}>built 1915</Text> */}
         <View style={styles.littleContainer}>
           <View
             style={{
