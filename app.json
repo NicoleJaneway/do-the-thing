@@ -16,7 +16,8 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.nicolejaneway.dothething"
+      "bundleIdentifier": "com.nicolejaneway.dothething",
+      "buildNumber": "2"
     },
     "android": {
       "versionCode": 2,
