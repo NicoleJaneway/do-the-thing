@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import { StyleSheet, View, AppState } from "react-native";
 import { useHistory } from "react-router-native";
 import { Audio } from "expo-av";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import TimerDisplay from "./TimerDisplay";
 import Controls from "./Controls";
@@ -10,11 +11,7 @@ import theme from "../../theme";
 import EnvContext from "../../EnvContext";
 
 import { prodSettings, testSettings } from "../../utils/settings";
-import {
-  convert,
-  handleAppStateChange,
-  getElapsedTime,
-} from "../../utils/utils";
+import { convert, recordStartTime, getElapsedTime } from "../../utils/utils";
 import { loadSound, playSound, unloadSound } from "../../utils/sound";
 
 const styles = StyleSheet.create({
@@ -41,26 +38,35 @@ export default function Clock({
 
   const initialTime = sessionLength * settings.numberOfSeconds * 1000;
   const [countdownTime, setCountdownTime] = useState(initialTime);
+  // const [savedCountdownTime, setSavedCountdownTime] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [displayTime, setDisplayTime] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [sound, setSound] = useState<Audio.Sound>();
 
   const appState = useRef(AppState.currentState);
-  const [elapsed, setElapsed] = useState(0);
 
   const history = useHistory();
+
+  useEffect(() => {
+    if (appState.current.match(/inactive|background/)) {
+      console.log("App is in background");
+      console.log("Saved: ", countdownTime);
+      recordStartTime(countdownTime);
+    }
+  }, [appState.current]);
 
   const handleAppStateChange = async (nextAppState) => {
     if (
       appState.current.match(/inactive|background/) &&
       nextAppState === "active"
     ) {
-      // We just became active again: recalculate elapsed time based
-      // on what we stored in AsyncStorage when we started.
-      const elapsed = await getElapsedTime();
-      // Update the elapsed seconds state
-      setElapsed(elapsed);
+      // Calculate elapsed time based on AsyncStorage value
+      const newCountdownTime = await getElapsedTime();
+      console.log("New countdown time:", newCountdownTime);
+      console.log("Display: ", convert(newCountdownTime));
+      // setCountdownTime(savedCountdownTime - elapsed);
+      // setDisplayTime(convert(savedCountdownTime - elapsed));
     }
     appState.current = nextAppState;
   };

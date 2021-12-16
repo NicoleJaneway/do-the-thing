@@ -3,13 +3,8 @@ import { StyleSheet, View, Text } from "react-native";
 import { useHistory } from "react-router-native";
 import { Entypo } from "@expo/vector-icons";
 
-import { runTimer } from "../../utils/utils";
+import { runTimer, clearStartTime, recordStartTime } from "../../utils/utils";
 import { unloadSound } from "../../utils/sound";
-
-import * as TaskManager from "expo-task-manager";
-import * as BackgroundFetch from "expo-background-fetch";
-
-const OFFLINE_TASK_NAME = "background-offline-upload-task";
 
 const styles = StyleSheet.create({
   controls: {
@@ -25,10 +20,18 @@ export default function Controls({ countdownTime, setCountdownTime, sound }) {
   const [active, setActive] = useState(true);
   const history = useHistory();
 
-  // Timer
+  // timer
   useEffect(() => {
     runTimer(countdownTime, setCountdownTime, active);
   }, [countdownTime, active]);
+
+  useEffect(() => {
+    if (!active) {
+      clearStartTime();
+    } else {
+      recordStartTime(countdownTime);
+    }
+  }, [active]);
 
   const handleToggleClick = () => {
     setActive(!active);

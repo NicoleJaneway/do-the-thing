@@ -4,7 +4,6 @@ import { useHistory } from "react-router-native";
 import { RadioButton, Checkbox } from "react-native-paper";
 import Constants from "expo-constants";
 
-import { recordStartTime } from "../utils/utils";
 import theme from "../theme";
 
 const viewableArea =
@@ -74,13 +73,13 @@ export default function Start({
   }, []);
 
   const handleStart = () => {
-    recordStartTime();
     history.push("/clock");
   };
 
   return (
     <>
       <View style={styles.bigContainer}>
+        <Text style={{ textAlign: "center" }}>built 1915</Text>
         <View style={styles.littleContainer}>
           <View
             style={{
