@@ -2,7 +2,7 @@
   "expo": {
     "name": "do-the-thing",
     "slug": "do-the-thing",
-    "version": "3.0.0",
+    "version": "4.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -17,10 +17,10 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.nicolejaneway.dothething",
-      "buildNumber": "3"
+      "buildNumber": "4"
     },
     "android": {
-      "versionCode": 3,
+      "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#bfe8e3"
