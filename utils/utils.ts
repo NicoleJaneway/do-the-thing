@@ -1,37 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { differenceInMilliseconds } from "date-fns";
-
-const recordStartTime = async (countdownTime) => {
-  try {
-    console.log("record start time");
-    const now = new Date();
-    await AsyncStorage.setItem("@start_time", now.toISOString());
-    await AsyncStorage.setItem("@countdown_time", countdownTime.toString());
-    console.log("Now: ", now.toISOString());
-  } catch (err) {
-    console.warn(err);
-  }
-};
-
-const getElapsedTime = async () => {
-  try {
-    const startTime = await AsyncStorage.getItem("@start_time");
-    const savedString = await AsyncStorage.getItem("@countdown_time");
-    const saved = Number.parseInt(savedString);
-    const now = new Date();
-    const elapsed = differenceInMilliseconds(now, Date.parse(startTime));
-    const newCountdownTime = saved - elapsed;
-    return newCountdownTime;
-  } catch (err) {
-    console.warn(err);
-  }
-};
-
-const clearStartTime = () => {
-  console.log("clear start time");
-  AsyncStorage.removeItem("@start_time");
-};
-
 const runTimer = (countdownTime, setCountdownTime, active = true) => {
   if (active && countdownTime >= 1000) {
     let isMounted = true;
@@ -58,4 +24,4 @@ const convert = (ms: number) => {
   return minutesString + ":" + secondsString;
 };
 
-export { recordStartTime, getElapsedTime, clearStartTime, runTimer, convert };
+export { runTimer, convert };
