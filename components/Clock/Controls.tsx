@@ -48,7 +48,7 @@ export default function Controls({ countdownTime, setCountdownTime, sound }) {
     return () => {
       AppState.removeEventListener("change", handleChange);
     };
-  }, [active]);
+  }, [active, countdownTime]);
 
   const handleChange = (newState) => {
     if (newState === "active" && active == true) {
