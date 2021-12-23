@@ -13,7 +13,7 @@ import {
 import { useHistory } from "react-router-native";
 import { Entypo } from "@expo/vector-icons";
 import { Notifications } from "expo";
-import * as Permissions from "expo-permissions";
+// import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
 import moment from "moment";
 
@@ -72,73 +72,73 @@ export default function Controls({ countdownTime, setCountdownTime, sound }) {
     );
   };
 
-  //Notification Handling
-  const scheduleNotification = () => {
-    Notifications.scheduleLocalNotificationAsync(
-      {
-        title: "Time's up!",
-        body: "Your session has finished!",
-        android: {
-          channelId: "alert",
-          icon: "../assets/notification.png",
-          color: "#00B0FF",
-          sticky: true,
-        },
-      },
-      {
-        time: new Date().getTime() + timer.seconds * 1000,
-      }
-    );
-  };
+  // //Notification Handling
+  // const scheduleNotification = () => {
+  //   Notifications.scheduleLocalNotificationAsync(
+  //     {
+  //       title: "Time's up!",
+  //       body: "Your session has finished!",
+  //       android: {
+  //         channelId: "alert",
+  //         icon: "../assets/notification.png",
+  //         color: "#00B0FF",
+  //         sticky: true,
+  //       },
+  //     },
+  //     {
+  //       time: new Date().getTime() + timer.seconds * 1000,
+  //     }
+  //   );
+  // };
 
-  const askNotification = async () => {
-    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-    if (Constants.isDevice && status === "granted")
-      if (Platform.OS === "android") {
-        Notifications.createChannelAndroidAsync("alert", {
-          name: "Timer Alert",
-          description: "Triggers when the timer has ended",
-          sound: true,
-          priority: "max",
-          vibrate: true,
-        });
-      }
-  };
+  // const askNotification = async () => {
+  //   const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+  //   if (Constants.isDevice && status === "granted")
+  //     if (Platform.OS === "android") {
+  //       Notifications.createChannelAndroidAsync("alert", {
+  //         name: "Timer Alert",
+  //         description: "Triggers when the timer has ended",
+  //         sound: true,
+  //         priority: "max",
+  //         vibrate: true,
+  //       });
+  //     }
+  // };
 
-  // notifications
-  useEffect(() => {
-    askNotification();
-    const listener = Notifications.addListener(handleNotification);
-    return () => listener.remove();
-  }, []);
+  // // notifications
+  // useEffect(() => {
+  //   askNotification();
+  //   const listener = Notifications.addListener(handleNotification);
+  //   return () => listener.remove();
+  // }, []);
 
-  const handleNotification = (notification) => {
-    if (notification.origin == "received") {
-      Vibration.vibrate([500, 2000, 500, 2000, 500, 2000]);
-      Alert.alert(
-        "Timer finished",
-        "Your session has been completed!",
-        [
-          {
-            text: "OK",
-            onPress: () => {
-              Vibration.cancel();
-              Notifications.dismissAllNotificationsAsync();
-            },
-          },
-        ],
-        { cancelable: false }
-      );
-    } else if (notification.origin == "selected") {
-      ToastAndroid.showWithGravity(
-        "Session finished",
-        ToastAndroid.SHORT,
-        ToastAndroid.CENTER
-      );
-      Notifications.dismissAllNotificationsAsync();
-      Vibration.cancel();
-    }
-  };
+  // const handleNotification = (notification) => {
+  //   if (notification.origin == "received") {
+  //     Vibration.vibrate([500, 2000, 500, 2000, 500, 2000]);
+  //     Alert.alert(
+  //       "Timer finished",
+  //       "Your session has been completed!",
+  //       [
+  //         {
+  //           text: "OK",
+  //           onPress: () => {
+  //             Vibration.cancel();
+  //             Notifications.dismissAllNotificationsAsync();
+  //           },
+  //         },
+  //       ],
+  //       { cancelable: false }
+  //     );
+  //   } else if (notification.origin == "selected") {
+  //     ToastAndroid.showWithGravity(
+  //       "Session finished",
+  //       ToastAndroid.SHORT,
+  //       ToastAndroid.CENTER
+  //     );
+  //     Notifications.dismissAllNotificationsAsync();
+  //     Vibration.cancel();
+  //   }
+  // };
 
   // controls
   const handleToggleClick = () => {
