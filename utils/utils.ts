@@ -1,15 +1,39 @@
-const runTimer = (countdownTime, setCountdownTime, active = true) => {
+// const runTimer = (countdownTime, setCountdownTime, active = true) => {
+//   if (active && countdownTime >= 1000) {
+//     let isMounted = true;
+//     let timer: ReturnType<typeof setTimeout>;
+//     if (isMounted) {
+//       timer = setInterval(() => setCountdownTime((prev) => prev - 1000), 1000);
+//     } else if (!active && countdownTime !== 0) {
+//       clearInterval(timer);
+//     }
+//     return () => {
+//       isMounted = false;
+//       clearInterval(timer);
+//     };
+//   }
+// };
+
+const runTimer = (countdownTime, setCountdownTime, active = true, appState) => {
   if (active && countdownTime >= 1000) {
     let isMounted = true;
     let timer: ReturnType<typeof setTimeout>;
     if (isMounted) {
-      timer = setInterval(() => setCountdownTime((prev) => prev - 1000), 1000);
+      if (appState.current === "active") {
+        timer = setTimeout(() => setCountdownTime((prev) => prev - 1000), 1000);
+        console.log("running timer");
+      }
     } else if (!active && countdownTime !== 0) {
-      clearInterval(timer);
+      clearTimeout(timer);
+      console.log("clearing timer");
+    } else if (appState.current !== "active") {
+      clearTimeout(timer);
+      console.log("clearing timer");
     }
     return () => {
       isMounted = false;
-      clearInterval(timer);
+      clearTimeout(timer);
+      console.log("clearing timer");
     };
   }
 };

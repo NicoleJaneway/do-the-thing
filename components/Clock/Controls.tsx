@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -15,7 +15,7 @@ import { Entypo } from "@expo/vector-icons";
 import { Notifications } from "expo";
 // import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
-import moment from "moment";
+import differenceInMilliseconds from "date-fns/differenceInMilliseconds";
 
 import { runTimer } from "../../utils/utils";
 import { unloadSound } from "../../utils/sound";
@@ -32,35 +32,52 @@ const styles = StyleSheet.create({
 
 export default function Controls({ countdownTime, setCountdownTime, sound }) {
   const [active, setActive] = useState(true);
+  const [exitTime, setExitTime] = useState<Date>(null);
   const history = useHistory();
+  const appState = useRef(AppState.currentState);
 
   // timer
+  // useEffect(() => {
+  //   runTimer(countdownTime, setCountdownTime, active, appState);
+  //   console.log(appState.current);
+  // }, [countdownTime, active, appState.current]);
+
   useEffect(() => {
-    runTimer(countdownTime, setCountdownTime, active);
-  }, [countdownTime, active]);
+    let interval = null;
+    if (active) {
+      interval = setInterval(() => {
+        setCountdownTime((countdownTime) => countdownTime - 1000);
+      }, 1000);
+    } else if (active && countdownTime !== 0) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [active, countdownTime]);
 
   // variable that is set when the app is backgrounded and read when opened in the foreground
-  let time = 0;
 
   // timer update after background logic
   useEffect(() => {
-    AppState.addEventListener("change", handleChange);
+    AppState.addEventListener("change", handleChange20);
     return () => {
-      AppState.removeEventListener("change", handleChange);
+      AppState.removeEventListener("change", handleChange20);
     };
-  }, [active, countdownTime]);
+  }, [countdownTime, active]);
 
-  const handleChange = (newState) => {
+  const handleChange20 = (newState) => {
     if (newState === "active" && active == true) {
-      let resumeTime = moment(new Date());
-      let exitTime = moment(time);
-      let duration = moment.duration(resumeTime.diff(exitTime, "seconds"));
-      let diff = duration.asSeconds() * 1000;
-      if (countdownTime - diff >= 0) {
-        setCountdownTime(countdownTime - diff);
+      let resumeTime: Date = new Date();
+      console.log("Exit time 2: ", exitTime);
+      console.log("Resume time: ", resumeTime);
+      let duration = differenceInMilliseconds(resumeTime, exitTime);
+      console.log("Duration: ", differenceInMilliseconds(resumeTime, exitTime));
+      if (countdownTime - duration >= 0) {
+        setCountdownTime((countdownTime) => countdownTime - duration);
+        console.log("New milliseconds: ", countdownTime - duration);
       }
-    } else if (newState == "background") {
-      time = new Date();
+    } else if (appState.current === "active" && newState === "background") {
+      setExitTime(new Date());
+      console.log("Exit time 1: ", new Date());
     }
   };
 
